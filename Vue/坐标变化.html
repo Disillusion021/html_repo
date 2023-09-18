@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>坐标变化</title>
+		<script src="js/vue.js"></script>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			#canvas {
+				width: 1000px;
+				padding: 400px 0;
+				background-color: #87CEEB;
+				text-align: center;
+				font-size: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="canvas" v-on:mousemove="move($event)">
+			<span>{{x}},{{y}}</span>
+		</div>
+		<script>
+			new Vue({
+				el: '#canvas',
+				data: {
+					x: 0,
+					y: 0
+				},
+				methods: {
+					move (a) {
+						this.x = a.clientX;
+						this.y = a.clientY;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

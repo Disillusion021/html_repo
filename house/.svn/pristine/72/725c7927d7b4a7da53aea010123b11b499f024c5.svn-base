@@ -1,0 +1,142 @@
+<template>
+	<Layout :class="'bg-white p-2'">
+		<Row :class="'m-1'">
+			<Col span="4">
+				<Button class="m-2" type="error" @click="newUser">新增</Button>
+			</Col>
+		</Row>
+		<Layout :class="'bg-white'">
+			<Table border :class="'m-1'" :columns="tableInfo.columnInfo" :data="tableInfo.data">
+				<template slot-scope="{row, index}" slot="action">
+					<Button type="primary" size="small" style="margin-right: 5px;" @click="show(row.cardId)">详细</Button>
+					<Button type="error" size="small" @click="remove(row.cardId)">删除</Button>
+				</template>
+			</Table>
+			<Page :class="'m-2 text-right'" :page-size="tableInfo.pageSize" @on-change="pageSearch" :total="tableInfo.total"></Page>
+		</Layout>
+	</Layout>
+</template>
+	
+<script>
+	export default {
+		data() {
+			return {
+				tableInfo: {
+					currentPage: 1,
+					pageSize: 8,
+					total: 0,
+					columnInfo: [
+						{
+							title: "会员卡编号",
+							key: "cardId",
+						},
+						{
+							title: "会员卡名",
+							key: "cardName",
+						},
+						{
+							title: "有效天数/天",
+							key: "periodDate",
+						},
+						{
+							title: "有效分钟/分",
+							key: "periodTime",
+							render: (h, params) => {
+								let time = params.row.periodDate * 24 * 60;
+								return h('span',time);
+							}
+						},
+						{
+							title: "价格/元",
+							key: "cardMoney",
+						},
+						{
+							title: "操作",
+							slot: 'action'
+						}
+					],
+					data: []
+				}
+			}
+		},
+		methods: {
+			init: function() {
+				this.$data.tableInfo.currentPage = 0;
+				this.search();
+			},
+			newUser: function() {
+				this.$router.push({
+					name: "card_new"
+				});
+			},
+			show: function(cardId) {
+				this.$router.push({
+					name: "card_detail",
+					params: {
+						cardId
+					}
+				});
+			},
+			//在哪里执行update操作了
+			// update(cardId) {
+			// 	this.$router.push({
+			// 		name: "card_update",
+			// 		params: {
+			// 			cardId
+			// 		}
+			// 	});
+			// },
+			remove: function(cardId) {
+				this.message.confirm({
+					title: "删除提示",
+					content: "即将删除会员卡，确定吗？",
+					onOk: () => {
+						this.http.delete({
+							url: "/card/info",
+							param: {
+								cardId
+							}
+						}).then(data => {
+							let totalPage = Math.ceil((this.tableInfo.total - 1) / this.tableInfo.pageSize);
+							this.tableInfo.currentPage = this.tableInfo.currentPage > totalPage ? totalPage : this.tableInfo.currentPage;
+							this.tableInfo.currentPage = this.tableInfo.currentPage < 1 ? 1 : this.tableInfo.currentPage;
+							this.search();
+						});
+					},
+					onCancel: () => {
+						this.message.info('操作已取消');
+					}
+				});
+			},
+			search: function() {
+				this.http.get({
+					url: "/card/page",
+					param: {
+						currentPage: this.$data.tableInfo.currentPage,
+						pageSize: this.$data.tableInfo.pageSize
+					}
+				}).then(data => {
+					this.$data.tableInfo.currentPage = data.current;
+					this.$data.tableInfo.total = data.total;
+					this.$data.tableInfo.pageSize = data.size;
+					this.$data.tableInfo.data = data.records;
+				});
+			},
+			pageSearch: function(changedPage) {
+				this.$data.tableInfo.currentPage = changedPage;
+				this.search();
+			}
+		},
+		created: function() {
+			this.init();
+		},
+		watch: {
+			$route() {
+				// alert("路由改变调用了监听函数并刷新页面");
+				this.search();
+			}
+		}
+	}
+</script>
+<style>
+</style>

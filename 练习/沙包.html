@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>打沙包</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			#odiv {
+				width: 200px;
+				height: 600px;
+				margin: 0 auto;
+				text-align: center;
+			}
+
+			#blood {
+				width: 100%;
+				height: 20px;
+				background: red;
+				border: 1px solid black;
+			}
+
+			#back {
+				border: 0.5px solid black;
+			}
+
+			button {
+				margin-top: 10px;
+			}
+		</style>
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<script>
+			//
+			$(function() {
+				let v = 100;
+				$('#hit').click(function() { 
+					v -= 10;
+					$('#blood').css('width', v + '%');
+					if (v == 0) {
+						$('#pic').attr('src','img/bag-burst.png');
+					} 
+				})
+				
+				$('#recover').click(function(){
+					v = 100;
+					$('#blood').css('width', v + '%');
+					$('#pic').attr('src','img/bag.png');
+				})
+			})
+			//JS写法
+			// window.onload = function() {
+			// 	let hit = document.getElementById('hit');
+			// 	let recover = document.getElementById('recover');
+			// 	let blood = document.getElementById('blood');
+			// 	let v = 90;
+			// 	hit.onclick = function() {
+			// 		blood.style.width = v + '%';
+			// 		if (v == 0) {
+			// 			document.getElementById('pic').src = 'img/bag-burst.png';
+			// 		} else {
+			// 			v -= 10;
+			// 		}
+			// 	}
+			// 	recover.onclick = function() {
+			// 		v = 90;
+			// 		blood.style.width = '100%';
+			// 		document.getElementById('pic').src = 'img/bag.png';
+			// 	}
+			// }
+		</script>
+	</head>
+	<body>
+		<div id="odiv">
+			<img id="pic" src="img/bag.png" />
+			<div id="back">
+				<div id="blood"></div>
+			</div id>
+			<div id="div1">
+				<button id="hit">打击</button>
+				<button id="recover">恢复</button>
+			</div>
+		</div>
+	</body>
+</html>

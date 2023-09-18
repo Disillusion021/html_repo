@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			.oDiv1 {
+				width: 100px;
+				height: 100px;
+				background: greenyellow;
+			}
+
+			.oDiv2 {
+				width: 200px;
+				height: 200px;
+				background: skyblue;
+			}
+
+			.oDiv3 {
+				width: 300px;
+				height: 300px;
+				background: orange;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="oDiv">
+			<button v-on:click="change">变换样式</button>
+			<div v-bind:class="'oDiv' + c" v-bind:style="{width: w + 'px'}"></div>
+			<div v-bind:class="{oDiv1:f,oDiv2:!f}" v-on:click="f = !f"></div>
+			<button v-on:click="addWidth">加宽</button>
+			<button v-on:click="displayMessage()">测试</button>
+		</div>
+		<script>
+			new Vue({
+				el: '#oDiv',
+				data: {
+					c: 1,
+					f: 1,
+					w: 100
+				},
+				methods: {
+					change() {
+						if (this.c == 3) {
+							this.c = 1;
+						} else {
+							this.c++;
+						}
+					},
+					addWidth(){
+						this.w += 10;
+					},
+					displayMessage() {
+						alert("fasdfasd");
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

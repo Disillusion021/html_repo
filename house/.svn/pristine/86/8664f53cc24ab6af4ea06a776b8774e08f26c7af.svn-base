@@ -1,0 +1,93 @@
+<template>
+	<Layout class="p-5 bg-white">
+		<Form :label-width="120">
+			<FormItem class="w-50" label="门店名称">
+				<Input v-model="shop.shopName" placeholder="请输入门店名称"></Input>
+			</FormItem>
+			<FormItem class="w-50" label="门店地址">
+				<Input v-model="shop.shopAddress" placeholder="请输入门店地址"></Input>
+			</FormItem>
+			<FormItem class="w-50" label="门店联系电话">
+				<Input v-model="shop.shopPhone" placeholder="请输入门店联系电话"></Input>
+			</FormItem>
+			<FormItem class="" label="设备型号">
+				<CheckboxGroup v-model="menjins">
+					<Checkbox v-for="item in allMenjin" :label="item.menjinId">{{item.menjinshebeibianhao}}</Checkbox>
+				</CheckboxGroup>
+			</FormItem>
+			<FormItem class="text-right">
+				<Button @click="submit" type="primary">提交</Button>
+				<Button @click="cancel" class="ml-2">取消</Button>
+			</FormItem>
+		</Form>
+	</Layout>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				shop: {
+					shopName: "",
+					shopAddress: "",
+					shopPhone: ""
+				},
+				allMenjin: [],
+				menjins: []
+			}
+		},
+
+		methods: {
+			submit: function() {
+				if (this.$data.shop.shopName.length === 0) {
+					this.message.error("门店名称必须输入");
+					return;
+				}
+
+				if (this.$data.shop.shopAddress.length === 0) {
+					this.message.error("门店地址必须输入");
+					return;
+				}
+				if (this.$data.shop.shopPhone.length === 0) {
+					this.message.error("门店联系电话必须输入");
+					return;
+				}
+				this.$data.shop.menjins = JSON.stringify(this.$data.menjins);
+				this.http.post({
+					url: "/shop/info",
+					param: this.$data.shop
+				}).then(data => {
+					this.message.info("新增成功");
+					this.$router.push({
+						name: "shop"
+					});
+				});
+			},
+			searchMenjin: function() {
+				this.http.get({
+					url: "/menjin/list"
+				}).then(data => {
+					for (let jndex in data) {
+						this.$data.allMenjin.push(data[jndex]);
+					}
+				
+
+				});
+			},
+
+			cancel: function() {
+				this.$tabs.close();
+			}
+
+		},
+		created() {
+			this.searchMenjin();
+		},
+		beforeRouteLeave(to,from,next) {
+			this.cancel();
+		}
+	}
+</script>
+
+<style>
+</style>

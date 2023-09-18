@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			#b1{
+				width: 500px;
+				height: 200px;
+				font-size: 300%;
+			}
+			#d1{
+				width: 500px;
+				height: 500px;
+				background-color: aqua;
+			}
+		</style>
+		<script>
+			var flag = true;
+			function m(){
+				flag = !flag;
+				if (flag === false){
+				d1.style.display = 'none';
+				} else {
+				d1.style.display = 'block';
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<button id="b1" onclick="m()">
+			显示/隐藏
+		</button>
+		<div id="d1"></div>
+	</body>
+</html>

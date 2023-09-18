@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>键盘事件</title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="oDiv">
+			<input type="text" v-on:keyup.enter="m" v-model:value="v"/><span>{{x}}</span>
+		</div>
+	</body>
+	<body>
+		<script>
+			
+			new Vue({
+				el: '#oDiv',
+				data: {
+					v: '0000',
+					x: '0000'
+				},
+				methods: {
+					m: function(){
+						this.x = this.v;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

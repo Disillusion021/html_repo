@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>数量加减</title>
+	</head>
+	<body>
+		<h1>事件的案例</h1>
+		<p id="text">您购买了0件商品</p>
+		<button onclick="cal(1)">+</button>
+		<button onclick="cal(-1)">-</button>
+		<script>
+			function cal(x) {
+				num += x;
+				text.innerHTML = "您购买了" + num + "件商品";
+			}
+			var text = document.getElementById("text");
+			var num = 0;
+		</script>
+	</body>
+</html>

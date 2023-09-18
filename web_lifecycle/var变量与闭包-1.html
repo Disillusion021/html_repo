@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>测试var变量与闭包</title>
+    </head>
+    <body>
+        <p>var测试</p>
+        <p>因为var变量在对应作用域(全局或函数)里只有一个</p>
+        <p>此例中var变量在全局作用域, window.i = 3, 所以每次点击都是3</p>
+        <hr>
+        <button class="var">测试1</button>
+        <button class="var">测试2</button>
+        <button class="var">测试3</button>
+        <p>let测试</p>
+        <p>let有块级作用域, i保存在块级作用域中</p>
+        <hr>
+        <button class="let">测试1</button>
+        <button class="let">测试2</button>
+        <button class="let">测试3</button>
+        <p>将i保存到this中测试</p>
+        <hr>
+        <button class="this">测试1</button>
+        <button class="this">测试2</button>
+        <button class="this">测试3</button>
+        <p>立即执行函数</p>
+        <hr>
+        <button class="quick">测试1</button>
+        <button class="quick">测试2</button>
+        <button class="quick">测试3</button>
+
+        <script>
+            // 使用var定义i, 全局作用域,window中只有1个i=3
+            var btns0 = document.getElementsByClassName('var')
+            for (var i = 0, length = btns0.length; i < length; i++) {
+                var btn = btns0[i]
+                btn.onclick = function() {
+                    alert('第' + i + '个')
+                }    
+                console.log(btn.onclick)
+            }
+
+            // 使用let定义i, es6块级作用域, block中
+            var btns1 = document.getElementsByClassName('let')
+            for (let i = 0, length = btns1.length; i < length; i++) {
+                var btn = btns1[i]
+                btn.onclick = function() {
+                    alert('第' + i + '个')
+                }    
+                console.log(btn.onclick)
+            }
+
+            // 将每次循环i的值保存到各自的btn(this)中
+            var btns2 = document.getElementsByClassName('this')
+            for (var i = 0, length = btns2.length; i < length; i++) {
+                var btn = btns2[i]
+                btn.index = i
+                btn.onclick = function() {
+                    alert('第' + this.index + '个')
+                }    
+                console.log(btn.onclick)
+            }
+
+            // 使用立即执行函数
+            var btns3 = document.getElementsByClassName('quick')
+            for (var i = 0, length = btns3.length; i < length; i++) {
+                (function(i) {
+                    var btn = btns3[i]
+                    btn.onclick = function() {
+                        alert('第' + i + '个')
+                    }    
+                    console.log(btn.onclick)
+                })(i)
+            }
+            
+            /** 闭包示例 - 函数外部访问函数内部定义的变量 **/
+            function showNum() {
+                var num = 12
+                function showNum2() {
+                    return num
+                }
+                return showNum2;
+            }
+            var myNum = showNum()
+            console.log(myNum())
+
+            /** 不用闭包正常返回 
+             * showNumO函数执行完,将返回值赋值给myNum1, showNumO函数就没有被引用了,showNum0上下文(栈空间)会被垃圾回收
+             * 并且showNum执行完, num变量就不存在了
+            */
+            function showNumO() {
+                var num = 10
+                return num;
+            }
+            var myNum1 = showNumO()
+            console.log(myNum1)
+            // 是不是觉得showNumO这种不就可以了吗,干嘛要多次一举,返回个函数showNum2去使用showNum中定义的变量num?
+            // 那是因为你没有见识到下面的用法,其实我感觉跟Java里的Bean对象差不多,私有变量只能通过public方法暴露访问器和修改器
+            // 详见MDN
+        </script>
+    </body>
+</html>

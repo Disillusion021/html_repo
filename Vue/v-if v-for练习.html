@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>v-if练习</title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="odiv">
+			<button v-on:click="flag = !flag">SUCCESS</button>
+			<p v-if="flag">网络连接成功！</p>
+			<p v-if="!flag">网络连接失败！</p>
+			<p v-for="e in emps">{{e.id}},{{e.name}},{{e.job}}</p>
+		</div>
+		<script>
+			new Vue({
+				el: '#odiv',
+				data: {
+					flag: 'true',
+					emps: [
+						{id: 1, name: '张三', job: 'java开发工程师'},
+						{id: 2, name: '李四', job: 'java开发工程师'},
+						{id: 3, name: '王五', job: 'java开发工程师'},
+					]
+				},
+				methods: {
+
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>MyCaculator</title>
+		<style>
+			input {
+				font-family: sans-serif;
+				font-style: normal;
+			}
+			button {
+				font-family: sans-serif;
+				font-style: italic;
+			}
+		
+			table {
+				border-collapse: c ollapse;
+			}
+
+			#i0 {
+				width: 400px;
+				height: 25px;
+				font-size: 16px;
+				text-align: right;
+				display: block;
+				border: 0;
+				outline: 0;
+				padding-bottom: 0px;
+
+			}
+
+			#i1 {
+				width: 400px;
+				height: 55px;
+				font-size: 30px;
+				text-align: right;
+				display: block;
+				border: 0;
+				outline: 0;
+			}
+
+			button {
+				width: 100px;
+				height: 50px;
+				background: white;
+				font-size: 20px;
+			}
+
+			button:hover {
+				background: greenyellow;
+				border-collapse: collapse;
+			}
+		</style>
+
+		<script>
+			window.onload = function() {
+				let i0 = document.getElementById("i0");
+				let i1 = document.getElementById("i1");
+				let nums = document.getElementsByClassName("num");
+				let point = document.getElementById("point");
+				let negative = document.getElementById("negative");
+				let CE = document.getElementById("CE");
+				let C = document.getElementById("C");
+				let Del = document.getElementById("Del")
+				let sbos = document.getElementsByClassName("sbos")
+				//用全局变量tag来标记是否需要覆盖显示，tag=0时表示拼接输入，tag!=0时表示覆盖输入。
+				let tag = 0;
+				//全局变量sbo=1时表示"+"，sbo=2时表示"-"，sbo=3时表示"×"，sbo=4时表示"÷",sbo=0时表示没有运算或者等号运算。
+				let sbo = 0;
+
+				CE.onclick = function() {
+					i1.value = "0";
+					//同时含有"运算符"和"="时将小文本框清空
+					if ((i0.value.indexOf("+") > -1 || i0.value.indexOf("-") > -1 || i0.value.indexOf("×") > -1 || i0
+							.value.indexOf("÷") > -1) && i0.value.indexOf("=") > -1) {
+						i0.value = "";
+					}
+				}
+
+				//全部清空并初始化
+				C.onclick = function() {
+					alert("老子清空了")
+					i0.value = "";
+					i1.value = "0";
+					sbo = 0;
+				}
+
+				//删除一个字符
+				Del.onclick = function() {
+					// //同时含有"运算符"和"="时将小文本框清空
+					// if ((i0.value.indexOf("+") > -1 || i0.value.indexOf("-") > -1 || i0.value.indexOf("×") > -1 || i0
+					// 		.value.indexOf("÷") > -1) && i0.value.indexOf("=") > -1) {
+					// 	i0.value = "";
+					// }
+					//当输入模式不是覆盖输入时，删除一个字符，当i1.value=0时不删除，当i1.value删到最后一位时令其=0;
+					if (tag === 0 && i1.value !== "0") {
+						i1.value = i1.value.slice(0, -1);
+						if (i1.value === "") {
+							i1.value = "0";
+						}
+					}
+				}
+
+				//0-9的按键，当按下+-×÷和=号时，i1文本框数字会被覆盖
+				for (let i = 0; i < nums.length; i++) {
+					nums[i].onclick = function() {
+						if (tag !== 0 || i1.value === "0") {
+							i1.value = "";
+						}
+						i1.value += nums[i].innerHTML;
+						tag = 0;
+					}
+				}
+
+				//如果tag!=0，按下"."时输入"0."
+				//如果tag==0，判断值是否包含"."若包含则不能再输入"."
+				point.onclick = function() {
+					if (tag !== 0) {
+						i1.value = "0.";
+						tag = 0;
+					} else {
+						if (i1.value.indexOf(".") < 0) {
+							i1.value += point.innerHTML;
+						}
+					}
+				}
+
+				//加负"-"号
+				negative.onclick = function() {
+					if (i1.value.indexOf("-") < 0 && i1.value !== "0") {
+						i1.value = "-" + i1.value;
+					} else if (i1.value.indexOf("-") >= 0) {
+						i1.value = i1.value.substr(1);
+					}
+					tag = 0;
+				}
+
+
+
+				//如果tag==0，i0文本框内容 = i0文本框 运算 i1文本框 计算而得，然后i1文本框再变
+				//如果tag==1，加减乘除时i0变为i1内容+按键符
+				for (let i = 0; i < sbos.length; i++) {
+					sbos[5 - (i + 1)].onclick = function() {
+						if (tag === 0) {
+							switch (sbo) {
+								case 0:
+									i0.value = parseFloat(i1.value);
+									break;
+								case 1:
+									if (i == 0) {
+										let w = parseFloat(i0.value) + parseFloat(i1.value);
+										i0.value = i0.value + i1.value;
+										i1.value = w;
+								
+									} else {
+										i0.value = parseFloat(i0.value) + parseFloat(i1.value);
+										i1.value = i0.value;
+									}
+									break;
+								case 2:
+									if (i == 0) {
+										let w = parseFloat(i0.value) - parseFloat(i1.value);
+										i0.value = i0.value + i1.value;
+										i1.value = w;
+									} else {
+										i0.value = parseFloat(i0.value) - parseFloat(i1.value);
+										i1.value = i0.value;
+									}
+									break;
+								case 3:
+									if (i == 0) {
+										let w = parseFloat(i0.value) * parseFloat(i1.value);
+										i0.value = i0.value + i1.value;
+										i1.value = w;
+									} else {
+										i0.value = parseFloat(i0.value) * parseFloat(i1.value);
+										i1.value = i0.value;
+									}
+									break;
+								case 4:
+									if (i == 0) {
+										let w = parseFloat(i0.value) / parseFloat(i1.value);
+										i0.value = i0.value + i1.value;
+										i1.value = w;
+									} else {
+										i0.value = parseFloat(i0.value) / parseFloat(i1.value);
+										i1.value = i0.value;
+									}
+									break;
+									
+							}
+							i0.value += sbos[5 - (i + 1)].innerHTML;
+						} else {
+							i0.value = i1.value.slice(0) + sbos[5 - (i + 1)].innerHTML
+						}
+						sbo = i;
+						tag = 1;
+					}
+				}
+
+			}
+		</script>
+	</head>
+	<body>
+		<input id="i0" type="text" value="" />
+		<input id="i1" type="text" value="0" />
+		<table>
+			<tr>
+				<td><button id="CE">CE</button></td>
+				<td><button id="C">C</button></td>
+				<td><button id="Del">Del</button></td>
+				<td><button class="sbos" id="divide">÷</button></td>
+			</tr>
+			<tr>
+				<td><button class="num">7</button></td>
+				<td><button class="num">8</button></td>
+				<td><button class="num">9</button></td>
+				<td><button class="sbos" id="multiply">×</button></td>
+			</tr>
+			<tr>
+				<td><button class="num">4</button></td>
+				<td><button class="num">5</button></td>
+				<td><button class="num">6</button></td>
+				<td><button class="sbos" id="minus">-</button></td>
+			</tr>
+			<tr>
+				<td><button class="num">1</button></td>
+				<td><button class="num">2</button></td>
+				<td><button class="num">3</button></td>
+				<td><button class="sbos" id="plus">+</button></td>
+			</tr>
+			<tr>		
+				<td id="negative"><button id="negative">+/-</button></td>
+				<td><button class="num">0</button></td>
+				<td><button id="point">.</button></td>
+				<td><button class="sbos" id="equal">=</button></td>
+			</tr>
+		</table>
+	</body>
+</html>

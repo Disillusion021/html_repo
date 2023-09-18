@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Json练习</title>
+		<script>
+			var obj = {
+				name : "英男",
+				age : 18,
+				flag : true
+			}
+			var jsonObj = {
+				"name" : "英男",
+				"age" : 18,
+				"flag" : true
+			}
+			var objToString = JSON.stringify(obj);
+			var jsonObjToString = JSON.stringify(jsonObj);
+			console.log('obj为' + obj);
+			console.log('objToString为' + objToString);
+			console.log('jsonObj为' + jsonObj);
+			console.log('jsonObjToString为' + jsonObjToString);
+			alert(objToString === jsonObjToString);
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

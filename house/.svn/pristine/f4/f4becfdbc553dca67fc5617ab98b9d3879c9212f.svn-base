@@ -1,0 +1,103 @@
+<template>
+	<Layout class="p-5 bg-white">
+		<Form class="p-5" :model="vip" :label-width="100">
+			<Row>
+				<Col span="8">
+				<FormItem class="w-100" label="会员编号">
+					<Input v-model="vip.vipId" />
+				</FormItem>
+				<FormItem class="w-100" label="会员名">
+					<Input v-model="vip.clientName" />
+				</FormItem>
+				<FormItem class="w-100" label="性别">
+					<Input v-model="vip.sex" />
+				</FormItem>
+				<FormItem class="w-100" label="年龄">
+					<Input v-model="vip.age" />
+				</FormItem>
+				<FormItem class="w-100" label="注册时间">
+					<Input v-model="vip.regDate" />
+				</FormItem>
+				<FormItem class="w-100" label="押金">
+					<Input v-model="vip.deposit" />
+				</FormItem>
+				<FormItem class="w-100" label="押金状态">
+					<Input v-model="vip.depositState" />
+				</FormItem>
+				<FormItem class="w-100" label="VIP类别">
+					<Input v-model="vip.cardName" />
+				</FormItem>
+				<FormItem class="w-100" label="VIP剩余时间/分">
+					<Input v-model="vip.timeLeft" />
+				</FormItem>
+				<FormItem class="w-100" label="VIP到期时间">
+					<Input v-model="vip.vipDeadline" />
+				</FormItem>
+				<FormItem class="w-100" label="联系电话">
+					<Input v-model="vip.phone" />
+				</FormItem>
+				</Col>
+			</Row>
+			<FormItem class="text-left">
+				<Button @click="submit" type="primary">提交</Button>
+				<Button @click="cancel" style="margin-left: 8px">取消</Button>
+			</FormItem>
+		</Form>
+	</Layout>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				vip: {
+					clientName: "",
+					sex: "",
+					age: "",
+					regDate: "",
+					deposit: "",
+					depositState: "",
+					cardName: "",
+					timeLeft: "",
+					vipDeadline: "",
+					phone: "",
+					vipId: 0,
+				},
+			}
+		},
+		methods: {
+			cancel: function() {
+				this.$tabs.close();
+			},
+			submit: function() {
+				this.http.put({
+					url: "/vip/info",
+					param: this.vip,
+				}).then(() => {
+					this.message.info("修改成功");
+					this.$router.go(-1);
+				});
+			},
+			init: function() {
+				this.search();
+			},
+			search: function() {
+				this.http.get({
+					url: "/vip-client-deposit-card-vo/info",
+					param: {
+						vipId: this.$data.vip.vipId
+					}
+				}).then(data => {
+					this.vip = data;
+				});
+			},
+		},
+		created: function() {},
+		mounted: function() {
+			this.$data.vip.vipId = this.$route.params.vipId;
+			this.init();
+		}
+	}
+</script>
+<style>
+</style>

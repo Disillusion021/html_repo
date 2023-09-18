@@ -1,0 +1,91 @@
+<template>
+    <Layout class="p-5 bg-white">
+		<Form class="p-5" :model="shopMenjinVo" :label-width="110">
+			
+			<FormItem class="w-50" label="半成品名称">
+			    
+				<Select v-model="shopMenjinVo.shopId" style="width:200px" @change="aa()">
+				        <Option v-for="item in shop" :value="item.shopId" :key="item.shopId">{{ item.shopName }}</Option>
+				</Select>
+			   </FormItem> 
+			<FormItem class="w-50" label="门禁型号">
+				<Input v-model="shopMenjinVo.menjinxinghao" ></Input>
+			</FormItem>
+			<FormItem class="w-50" label="门禁设备编号">
+				<Input v-model="shopMenjinVo.menjinshebeibianhao" ></Input>
+			</FormItem>
+			<FormItem class="w-50" label="维修电话">
+				<Input v-model="shopMenjinVo.tel" ></Input>
+			</FormItem>
+			<FormItem>
+			    <Button @click="submit" type="primary">提交</Button>
+			    <Button @click="cancel" style="margin-left: 8px">取消</Button>
+			</FormItem>
+        </Form>
+    </Layout>
+</template>
+<script>
+    export default {
+        data() {
+            return {
+               shopMenjinVo: {
+				
+               },
+			   shop :[]
+	
+            }
+        },
+		
+        methods: {
+            cancel: function () {
+				
+				this.$tabs.close();
+            },
+			find: function() {
+				this.http.get({
+					url: "/shop/page",
+					
+				}).then(data => {
+					
+					this.$data.shop = data.records;
+				});
+			},
+            submit: function () {
+                this.http.put({
+                    url: "/shop-menjin-vo/info",
+                    param: self.shopMenjinVo,
+                }).then(() => {
+                    this.message.info("修改成功");	
+                }).then(() =>{
+					this.$router.push({
+						name: "menjin_list"
+					});
+				});
+            },
+			
+            searchBanchengpin: function () {
+               this.http.get({
+                    url: "/shop-menjin-vo/info",
+                    param: {
+                        menjinId: this.$data.shopMenjinVo.menjinId
+                    }
+                }).then(data => {
+					this.$data.shopMenjinVo = data;
+                });
+            },
+			
+        },
+		
+        created: function () {
+			this.$data.shopMenjinVo.menjinId = this.$route.params.menjinId;
+			this.searchBanchengpin();
+			this.find();
+			
+        },
+		
+		
+    }
+</script>
+
+<style>
+</style>

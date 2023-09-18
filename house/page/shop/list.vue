@@ -1,0 +1,143 @@
+<template>
+	<Layout :class="'bg-white p-2'">
+		<Row :class="'m-1'">
+			<Col span="4">
+			<Button class="m-2" type="error" @click="newShop()">新增</Button>
+			</Col>
+			<Col span="4">
+			<Input :class="'w-75 m-2'" v-model="searchKey" placeholder="请输入检索关键字"></Input>
+			</Col>
+			<Col span="4">
+			<Button class="m-2" type="primary" shape="circle" @click="init()" icon="ios-search"></Button>
+			</Col>
+		</Row>
+		<Layout :class="'bg-white'">
+			<Table border :class="'m-1'" :columns="tableInfo.columnInfo" :data="tableInfo.data">
+
+				<template slot-scope="{row,index}" slot="action">
+					<Button type="primary" size="small" style="margin-right: 5px;" @click="show(row.shopId)">详情</Button>
+					<Button type="error" size="small" @click="remove(row.shopId)">删除</Button>
+				</template>
+			</Table>
+			<Page :class="'m-2 text-right'" :page-size="tableInfo.pageSize" @on-change="pageSearch"
+				:total="tableInfo.total"></Page>
+		</Layout>
+	</Layout>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				searchKey: "",
+				tableInfo: {
+					currentPage: 1,
+					pageSize: 0,
+					total: 0,
+					columnInfo: [{
+							title: "门店编号",
+							render: (h, params) => {
+								return h("span", params.index + (this.tableInfo.currentPage - 1) * this.tableInfo
+									.pageSize + 1);
+							},
+							width: 100
+						},
+						{
+							title: "门店名称",
+							key: "shopName",
+							width: 200
+						},
+						{
+							title: "门店地址",
+							key: "shopAddress",
+							width: 200
+						},
+						{
+							title: "门店联系电话",
+							key: "shopPhone",
+							width: 200
+						},
+						{
+							title: "操作",
+							slot: 'action'
+						}
+					],
+					data: []
+				}
+			}
+		},
+		methods: {
+			init: function() {
+				this.$data.tableInfo.currentPage = 0;
+				this.search();
+			},
+			newShop: function() {
+				this.$router.push({
+					name: "shop_new"
+				});
+			},
+			show: function(shopId) {
+				this.$router.push({
+					name: "shop_detail",
+					params: {
+						shopId
+					}
+				});
+			},
+			remove: function(shopId) {
+				this.message.confirm({
+					title: "删除提示",
+					content: "即将删除用户，确定吗？",
+					onOk: () => {
+						this.http.delete({
+							url: "/shop/info",
+							param: {
+								shopId
+							}
+						}).then(data => {
+							this.search();
+						});
+					},
+					onCancel: () => {
+						this.message.info('操作已取消');
+					}
+				});
+			},
+			search: function(current) {
+				this.http.get({
+					url: "/shop/page",
+					param: {
+						currentPage: this.$data.tableInfo.currentPage,
+						searchKey: this.$data.searchKey
+					}
+				}).then(data => {
+					// if(data.current>1){
+					// 	this.$data.tableInfo.currentPage = 0;
+					// }else{
+					this.$data.tableInfo.currentPage = data.current;
+					// }
+					this.$data.tableInfo.total = data.total;
+					this.$data.tableInfo.pageSize = data.size;
+					this.$data.tableInfo.data = data.records;
+				});
+			},
+			pageSearch: function(changedPage) {
+				this.$data.tableInfo.currentPage = changedPage;
+				this.search();
+			}
+		},
+		created: function() {
+			this.init();
+		},
+		watch: {
+			$route() {
+				this.init();
+			}
+
+		}
+
+
+	}
+</script>
+<style>
+</style>

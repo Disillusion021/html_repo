@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>HELLO WORLD!</title>
+		<script src = "js/jquery-3.2.1.min.js"></script>
+		<script>
+			$(function() {
+				$('#btn').click(function() {
+					$('#odiv').css('width','1000px')
+							.css('height','800px')
+							.css('background','yello');
+				});
+			});
+			
+		</script>
+		<style>
+			* {
+
+				font-family: sans-serif;
+				margin: 0;
+				padding: 0;
+			}
+
+			div {
+				width: 500px;
+				height: 500px;
+				background-color: #00FFFF;
+			}
+		</style>
+
+
+	</head>
+	<body>
+		<div id="odiv">
+			Hello, World!
+			<button id="btn">
+				点下试试
+			</button>
+		</div>
+
+	</body>
+</html>

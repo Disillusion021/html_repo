@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>筛选器练习</title>
+		<style>
+			div {
+				width: 100px;
+				height: 100px;
+				background: red;
+				margin: 5px;
+			}
+		</style>
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<script>
+			$(function() {
+				$('button').click(function() {
+					$('div:first').css('background', 'yellow');
+					$('div:last').css('background', 'green');
+					$('div:eq(4)').css('background', 'pink');
+					$('div:not(:eq(4),:eq(0),:eq(7))').css('background', 'orange');
+					$('div:gt(4)').css('background', 'purple');
+					$('div:lt(4)').css('background', '#00FFFF');
+					$('div:contains(hello)').css('border', '5px solid blue');
+					$('div:empty').css('border', '5px solid green');
+					//循环遍历JQuery对象
+					///$(n) 将n变为jQuery对象
+					$.each($('div'),function(i,n) {
+						$(n).css('background','green');
+					})
+				})
+			})
+		</script>
+	</head>
+	<body>
+		<button>变色</button>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div>hello</div>
+		<div></div>
+		<div>hello,world</div>
+		<div></div>
+		<div></div>
+	</body>
+</html>

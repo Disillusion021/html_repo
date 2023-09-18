@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+
+			div {
+				width: 411px;
+				height: 411px;
+				border: 1px solid black;
+				background: rgb(240, 250, 240);
+				display: none;
+			}
+
+			1 button {
+				width: 100px;
+				height: 50px;
+				font: 200%;
+			}
+
+			.c {
+				background-color: yellow;
+			}
+
+			.d {
+				display: block;
+			}
+		</style>
+		<script>
+			window.onload = function() {
+				btns = document.getElementsByTagName("button");
+				divs = document.getElementsByTagName('div');
+				let index = 0;
+				for (let i = 0; i < btns.length; i++) {
+					btns[i].onclick = function() {
+						divs[index].className = '';
+						divs[i].className = 'd';
+						btns[index].className = '';
+						btns[i].className = 'c';
+						index = i;
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<button class='c'>教育</button>
+		<button>培训</button>
+		<button>历史</button>
+		<button>政治</button>
+		<div class='d'>1111</div>
+		<div>2222</div>
+		<div>3333</div>
+		<div>4444</div>
+	</body>
+</html>

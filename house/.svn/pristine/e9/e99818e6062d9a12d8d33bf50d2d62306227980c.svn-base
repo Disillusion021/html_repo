@@ -1,0 +1,102 @@
+<template>
+	<Layout class="p-5 bg-white">
+		<Form class="p-5" :model="shop" :label-white="80">
+			<Row>
+				<Col span="8">
+					<FormItem class="w-50" label="门店编号">
+						<label>{{shop.shopId}}</label>
+					</FormItem>
+					<FormItem class="w-50" label="门店名称">
+						<Input v-model="shop.shopName" ></Input>
+					</FormItem>
+					<FormItem class="w-50" label="门店地址">
+						<Input v-model="shop.shopAddress" ></Input>
+					</FormItem>
+					<FormItem class="w-50" label="门店联系电话">
+						<Input v-model="shop.shopPhone" ></Input>
+					</FormItem>
+				</Col>
+				<Col span="8">
+					<FormItem class="w-50" label="设备型号">
+						<CheckboxGroup v-model="menjins">
+							<Checkbox v-for="item in allMenjin" :label="item.menjinId">{{item.menjinshebeibianhao}}</Checkbox>
+						</CheckboxGroup>
+					</FormItem>
+				</Col>
+			</Row>
+			
+			<FormItem>
+			    <Button @click="submit" type="primary">提交</Button>
+			    <Button @click="cancel" style="margin-left: 8px">取消</Button>
+			</FormItem>
+		</Form>
+	</Layout>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				shop: {
+					shopId:"",
+					shopName:"",
+					shopAddress:"",
+					shopPhone:""
+				},
+				menjin:[],
+				allMenjin: [],
+				menjins: []
+			}
+		},
+		methods: {
+			submit: function () {
+				this.$data.shop.menjins = JSON.stringify(this.$data.menjins);
+			    this.http.put({
+			        url: "/shop/info",
+			        param: this.$data.shop
+			    }).then(() => {
+			        this.message.info("修改成功");	
+			    }).then(() =>{
+					this.$router.push({
+						name: "shop"
+					});
+				});
+			},
+			searchMendian: function() {
+				this.http.get({
+					url: "/shop/info",
+					param: {
+						shopId: this.$data.shop.shopId
+					}
+				}).then(data => {
+					this.$data.shop=data.shop;
+					this.$data.menjin=data.menjin;
+					this.$data.allMenjin=data.allMenjin;
+					console.log(this.$data.shop);
+					for(let jndex in data.menjin){
+						this.$data.menjins.push(data.menjin[jndex].menjinId);
+					}
+		
+				});
+			},
+			cancel: function () {
+							
+							this.$tabs.close();
+							
+		    },
+		
+		},
+		created: function() {
+			this.$data.shop.shopId=this.$route.params.shopId;
+			this.searchMendian();
+		},
+		//导航离开该组件的对应路由时调用
+		//可以访问组件'this'
+		beforeRouteLeave(to,from,next) {
+			this.cancel();
+		}
+	}
+
+</script>
+<style>
+</style>

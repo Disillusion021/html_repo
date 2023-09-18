@@ -1,0 +1,40 @@
+<html>
+<html>
+	<head>
+		<style type="text/css">
+		</style>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<h1>計算屬性</h1>
+			<button @click="a ++">增加A</button>
+			<button @click="b ++">增加B</button>
+			<p>A : {{a}}</p>
+			<p>B : {{b}}</p>
+			<p>A + num : {{addNumA}}</p>
+			<p>B + num : {{addNumB}}</p>
+			
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el : '#container',
+				data : {
+					a : 0,
+					b : 0,
+					num : 50
+				},
+				computed : {
+					addNumA(){
+						console.log('调用addNumA函数');
+						return this.num + this.a;
+					},
+					addNumB(){
+						console.log('调用addNumB函数');
+						return this.num + this.b;
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

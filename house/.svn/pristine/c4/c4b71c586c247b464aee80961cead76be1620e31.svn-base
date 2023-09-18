@@ -1,0 +1,107 @@
+<template>
+	<Layout :class="'bg-white p-2'">
+		<Row :class="'m-1'">
+			<Col span="8">
+			<Input :class="'w-75 m-2'" v-model="searchKey" placeholder="请输入检索关键字" />
+			</Col>
+			<Col span="4">
+			<Button class="m-2" type="primary" shape="circle" @click="search" icon="ios-search">查询</Button>
+			</Col>
+		</Row>
+		<Layout :class="'bg-white'">
+			<Table border :class="'m-1'" :columns="tableInfo.columnInfo" :data="tableInfo.data">
+				<template slot-scope="{ row, index }" slot="action">
+					<Button type="primary" size="small" style="margin-right: 5px" @click="show(row.vipId)">详细</Button>
+				</template>
+			</Table>
+			<Page :class="'m-2 text-right'" :page-size="tableInfo.pageSize" @on-change="pageSearch" :total="tableInfo.total" />
+		</Layout>
+	</Layout>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				searchKey: "",
+				tableInfo: {
+					currentPage: 1,
+					pageSize: 3,
+					total: 0,
+					columnInfo: [
+						{
+							title: "会员编号",
+							key: "vipId",
+						},
+						{
+							title: "会员姓名",
+							key: "clientName",
+						},
+						{
+							title: "押金状态",
+							key: "depositState",
+						},
+						{
+							title: "手机号",
+							key: "phone",
+						},
+						{
+							title: "VIP类别",
+							key: "cardName",
+						},
+						{
+							title: "操作",
+							slot: 'action'
+						}
+					],
+					data: []
+				}
+			}
+		},
+		methods: {
+			init: function() {
+				this.$data.tableInfo.currentPage = 0;
+				this.search();
+			},
+			show: function(vipId) {
+				this.$router.push({
+					name: "vip_detail",
+					params: {
+						vipId
+					}
+				});
+			},
+			search: function() {
+				this.http.get({
+					url: "/vip-client-deposit-card-vo/page",
+					param: {
+						currentPage: this.$data.tableInfo.currentPage,
+						pageSize: this.$data.tableInfo.pageSize,
+						searchKey: this.$data.searchKey
+					}
+				}).then(data => {
+					this.$data.tableInfo.currentPage = data.current;
+					this.$data.tableInfo.total = data.total;
+					this.$data.tableInfo.pageSize = data.size;
+					this.$data.tableInfo.data = data.records;
+					let totalPage = Math.ceil(this.tableInfo.total / this.tableInfo.pageSize);
+					totalPage = totalPage < 1 ? 1 : totalPage;
+					if( this.tableInfo.currentPage > totalPage) {
+						this.$data.tableInfo.currentPage = totalPage;
+						this.search();
+					};
+				});
+			},
+			pageSearch: function(changedPage) {
+				this.$data.tableInfo.currentPage = changedPage;
+				this.search();
+			}
+		},
+		created: function() {
+			this.init();
+		}
+		
+	}
+</script>
+<style>
+</style>

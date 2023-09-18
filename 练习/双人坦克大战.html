@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>夫妻对战</title>
+		<style type="text/css">
+			div {
+				width: 40px;
+				height: 40px;
+				background: red;
+				border-radius: 20px;
+			}
+
+			#div1 {
+				width: 100px;
+				height: 100px;
+				background: lightpink;
+				position: absolute;
+				left: 500px;
+				top: 800px;
+			}
+
+			#div2 {
+				width: 100px;
+				height: 100px;
+				background-color: #FFA500;
+				position: absolute;
+				right: 500px;
+				top: 800px;
+			}
+		</style>
+		<script>
+			window.onload = function() {
+				var b = document.getElementById("bo");
+				var tank1 = document.getElementById("div1");
+				var tank2 = document.getElementById("div2");
+				b.onkeydown = function(event) {
+					//空格键
+					if (event.keyCode == 32) {
+						dan1 = document.createElement('div');
+						b.appendChild(dan1);
+					}
+					if (event.keyCode == "87") {
+						tank1.style.top = tank1.offsetTop - 10 + 'px';
+					}
+					if (event.keyCode == "83") {
+						tank1.style.top = tank1.offsetTop + 10 + 'px';
+					}
+					if (event.keyCode == "65") {
+						tank1.style.left = tank1.offsetLeft - 10 + 'px';
+					}
+					if (event.keyCode == "68") {
+						tank1.style.left = tank1.offsetLeft + 10 + 'px';
+					}
+					//确认键
+					if (event.keyCode == 13) {
+						tank2.style.top = tank2.offsetTop - 10 + 'px';
+					}
+					if (event.key == "ArrowUp") {
+						tank2.style.top = tank2.offsetTop - 10 + 'px';
+					}
+					if (event.key == "ArrowDown") {
+						tank2.style.top = tank2.offsetTop + 10 + 'px';
+					}
+					if (event.key == "ArrowLeft") {
+						tank2.style.left = tank2.offsetLeft - 10 + 'px';
+					}
+					if (event.key == "ArrowRight") {
+						tank2.style.left = tank2.offsetLeft + 10 + 'px';
+					}
+				}
+
+			}
+		</script>
+	</head>
+	<body id="bo">
+		<div id="div1"></div>
+		<div id="div2"></div>
+	</body>
+</html>

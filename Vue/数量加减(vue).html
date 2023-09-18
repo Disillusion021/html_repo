@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>数量加减</title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="oDiv">
+			<h1>事件的案例</h1>
+			<p>您购买了{{num}}件商品</p>
+			<button v-on:click="cal(1)">+</button>
+			<button v-on:click="cal(-1)">-</button>
+			<button v-on:mouseover="cal(10)">+10</button>
+			<button v-on:mouseover="cal(-10)">-10</button>
+		</div>
+		<script>
+			new Vue({
+				el: '#oDiv',
+				data: {
+					num: 0
+				},
+				methods: {
+					cal (x) {
+						this.num += x;
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

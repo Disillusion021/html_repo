@@ -1,0 +1,105 @@
+<template>
+	<div class="layout">
+		<Layout :style="{minHeight: '100vh'}">
+			<Header>
+				<Menu name="11" mode="horizontal" theme="dark" active-name="1">
+					<div class="layout-logo w-50">
+						<!-- <img class="w-100 h-100 align-top" src="../assets/logo.png" /> -->
+						<h4 class="text-light">智能健身房管理后台</h4>
+					</div>
+					<div class="layout-nav">
+						<Menu mode="horizontal" style="float: right;" theme="dark" active-name="1">
+							<Submenu name="3">
+								<template slot="title">
+									<Icon type="ios-people" />
+									<span>{{current.user.account}}</span>
+								</template>
+								<MenuItem  name="3-2">
+									<a @click="logout" href="javascript:void(0)" :class="'w-100 h-100'">退出登录</a>
+								</MenuItem>
+								
+							</Submenu>
+						</Menu>
+					</div>
+				</Menu>
+			</Header>
+			<Layout>
+				<Sider hide-trigger :class="'bg-light'" >
+					<Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
+						<Submenu v-for="(item, key) in current.permissions" :id="key" :name="item.permissionId">
+							<template slot="title">
+								<Icon type="ios-navigate"></Icon>
+								{{item.name}}
+							</template>
+							<MenuItem 
+								v-for="(subItem, index) in item.permissions" 
+								:name="subItem.permissionId"
+								:to="subItem.path"
+								>
+								<a>{{subItem.name}}</a>
+							</MenuItem>
+						</Submenu>
+					</Menu>
+				</Sider>
+				<Layout>
+					<Content :class="'m-2'">
+						<router-tab :class="''" />
+					</Content>
+				</Layout>
+			</Layout>
+		</Layout>
+	</div>
+</template>
+
+<script>
+	import store from "../../common/store.js"
+	export default {
+		data() {
+			return {
+				currentUser: {
+				}
+				
+			};
+		},
+		methods: {
+			logout: () => {
+				store.commit("loginOut");
+			},
+			showdata(){
+				this.$router.push({
+					name: 'dashboard',
+				})
+			}
+		},
+		computed: {
+			current: function() {
+				return store.state.currentUser;
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	.layout {
+		position: relative;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+
+	.layout-logo {
+		width: 100px;
+		height: 30px;
+		background: #5b6270;
+		border-radius: 3px;
+		float: left;
+		position: relative;
+		top: 15px;
+		left: 20px;
+	}
+
+	.layout-nav {
+		width: calc(100% - 100px);
+		margin: 0 auto;
+		margin-right: 20px;
+	}
+</style>
