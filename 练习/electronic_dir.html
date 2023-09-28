@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <title>选择电子卷目录</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      #frame {
+        width: 100%;
+        height: 460px;
+        background-color: white;
+      }
+
+      #title {
+        background-color: gainsboro;
+        height: 35px;
+      }
+
+      #title_text {
+        margin-left: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 35px;
+      }
+
+      #title #bt1 {
+        font-size: 20px;
+        float: right;
+        padding: 2px 6px 2px 6px;
+        margin: 2px 0px 2px 0px;
+      }
+
+      #first_col {
+        vertical-align: top;
+        display: inline-block;
+        margin: 12px 0px 0px 20px;
+        width: 25%;
+      }
+
+      #second_col {
+        vertical-align: top;
+        display: inline-block;
+        margin: 12px 0px 0px 20px;
+        width: 35%;
+      }
+
+      #third_col {
+        vertical-align: top;
+        display: inline-block;
+        margin: 12px 0px 0px 20px;
+        width: 25%;
+      }
+
+      .col_head {
+        color: white;
+        background-color: #0062c2;
+        font-size: 18px;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      .no-bullet-list {
+        overflow: hidden;
+        padding-left: 0;
+        /* padding-inline-start: 0px; */
+      }
+
+      /* 列表间隔 */
+      .no-bullet-list li {
+        list-style-type: none;
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+
+      /* 清楚浮动 */
+      .clearfix::after {
+        content: '';
+        display: table;
+        clear: both;
+      }
+
+      /* 返回按钮样式 */
+      #return {
+        border: none;
+        border-radius: 4px;
+        font-size: 15px;
+        background-color: transparent;
+        padding: 5px 15px 5px 6px;
+        vertical-align: top;
+        line-height: 25px;
+        cursor: pointer;
+      }
+
+      /** 提示样式 */
+      #hint {
+        font-size: 16px;
+        color: red;
+        float: right;
+        height: 35px;
+        line-height: 35px;
+      }
+
+      /* 按钮右下角显示 */
+      #content {
+        position: relative;
+      }
+      #submit {
+        position: absolute;
+        bottom: 10px;
+        right: 60px;
+      }
+
+      /* 提交按钮样式 */
+      #submit {
+        border: none;
+        border-radius: 4px;
+        font-size: 18px;
+        color: white;
+        background-color: #0062c2;
+        padding: 15px 22px 15px 22px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <div id="frame">
+      <div id="title" class="clearfix">
+        <button id="return" type="button">《 返回</button>
+        <span id="title_text">选择电子卷目录</span>
+        <!-- <button id="bt1"><i class="fa fa-cog"></i></button> -->
+        <div id="hint">
+          ※每次仅可上传一个电子卷中的文件，不可跨电子卷上传文件。
+        </div>
+      </div>
+      <div id="content">
+        <div id="first_col">
+          <div class="col_head">电子卷（一）</div>
+          <ul id="case_ul" class="no-bullet-list">
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_1"
+                value="1委托合同（合同）"
+              />
+              <label for="type_1">1委托合同（合同）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_2"
+                value="2风险告知书（风险）"
+              />
+              <label for="type_2">2风险告知书（风险）</label>
+            </li>
+          </ul>
+        </div>
+        <div id="second_col">
+          <div class="col_head">电子卷（二）</div>
+          <ul id="case_ul" class="no-bullet-list">
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_3"
+                value="3收案审批表（收案表）"
+                checked
+              />
+              <label for="type_3">3收案审批表（收案表）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_4"
+                value="4收费凭证（发票）"
+                checked
+              />
+              <label for="type_4">4收费凭证（发票）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_5"
+                value="5首谈笔录（首谈）"
+              />
+              <label for="type_5">5首谈笔录（首谈）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_6"
+                value="6授权委托书（授权书）"
+              />
+              <label for="type_6">6授权委托书（授权书）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_7"
+                value="7法人/自然人身份证明（身份证明）"
+              />
+              <label for="type_7">7法人/自然人身份证明（身份证明）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_8"
+                value="8起诉状/上诉状/答辩状（诉状）"
+              />
+              <label for="type_8">8起诉状/上诉状/答辩状（诉状）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_9"
+                value="9出庭通知书/传票"
+              />
+              <label for="type_9">9出庭通知书/传票</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_10"
+                value="10庭审笔录（笔录）"
+              />
+              <label for="type_10">10庭审笔录（笔录）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_11"
+                value="11判决书/裁定书/调解书（判决书）"
+              />
+              <label for="type_11">11判决书/裁定书/调解书（判决书）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_12"
+                value="12办案小结（办案小结）"
+              />
+              <label for="type_12">12办案小结（办案小结）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_13"
+                value="13卷内备考表（备考表）"
+              />
+              <label for="type_13">13卷内备考表（备考表）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_00"
+                value="以上全部"
+              />
+              <label for="type_00">以上全部</label>
+            </li>
+          </ul>
+        </div>
+        <div id="third_col">
+          <div class="col_head">电子卷（三）</div>
+          <ul id="case_ul" class="no-bullet-list">
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_14"
+                value="14证据材料（证据）"
+              />
+              <label for="type_14" class="">14证据材料（证据）</label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                name="type"
+                id="type_15"
+                value="15其他材料（其他）"
+              />
+              <label for="type_15">15其他材料（其他）</label>
+            </li>
+          </ul>
+        </div>
+        <input id="submit" type="submit" value="扫描" />
+      </div>
+      <!-- <div id="bottom">
+      </div> -->
+    </div>
+    <script>
+      // 返回按钮跳转
+      $(document).ready(function () {
+        $('#return').click(function () {
+          // history.go(-1) // 返回上一页
+          window.location.href = './case_classification.html'
+        })
+      })
+
+      // 点击以上全部勾选或取消
+      $('#type_00').click(function () {
+        var isChecked = $(this).prop('checked')
+        $('#second_col input[name="type"]').prop('checked', isChecked)
+      })
+    </script>
+  </body>
+</html>

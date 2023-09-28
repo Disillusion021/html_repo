@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <title>案件分类</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        /* zoom: 1.2; */
+      }
+
+      #frame {
+        width: 100%;
+        height: 460px;
+        background-color: white;
+      }
+
+      #title {
+        background-color: gainsboro;
+      }
+
+      #title_text {
+        margin-left: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 35px;
+      }
+
+      #title #bt1 {
+        font-size: 20px;
+        float: right;
+        padding: 2px 6px 2px 6px;
+        margin: 2px 0px 2px 0px;
+      }
+
+      #login_info {
+        margin: 40px auto 50px auto;
+        padding-left: 42px;
+      }
+
+      /** input透明样式 **/
+      .transparent {
+        background-color: transparent !important;
+        border: none !important;
+        color: gray !important;
+        width: 130px !important;
+      }
+
+      /* 列表文字对齐 */
+      #case_ul > li > label {
+        display: inline-block;
+        width: 120px;
+      }
+
+      /* 列表间隔 取消小圆点 */
+      .no-bullet-list li {
+        list-style-type: none;
+        margin-bottom: 30px;
+      }
+
+      /* 单选input取消小圆点 */
+      .radio-button {
+        display: none;
+      }
+
+      /* 单选input矩形样式 */
+      .radio-button + label {
+        padding: 6px 20px;
+        margin-right: 8px;
+        background-color: rgb(188, 224, 236);
+        cursor: pointer;
+      }
+
+      /* 单选input选中样式 */
+      .radio-button:checked + label {
+        padding: 6px 20px;
+        margin-right: 8px;
+        /* background-color: dodgerblue; */
+        background-color: #0062c2;
+        color: white;
+      }
+
+      /* input输入框样式 */
+      #frame input[type='text'] {
+        width: 280px;
+        height: 30px;
+        border: 1px solid rgb(118, 117, 117);
+        outline: none;
+        font-size: 15px;
+        color: black;
+      }
+
+      #caseNo {
+        width: 80px !important;
+        height: 22px !important;
+        font-weight: bold;
+        text-align: right;
+      }
+
+      /* 确定按钮样式 */
+      #confirm_bt {
+        border: none;
+        border-radius: 4px;
+        font-size: 15px;
+        color: white;
+        background-color: #0062c2;
+        padding: 8px 15px 8px 15px;
+        margin-left: 100px;
+        cursor: pointer;
+      }
+
+      /* 立案委托人只读input样式 */
+      #caseClient {
+        background-color: #c1bcbc;
+        text-align: center;
+      }
+
+      /* select下拉框样式 */
+      #frame select {
+        width: 280px;
+        height: 30px;
+      }
+
+      /* 清楚浮动 */
+      .clearfix::after {
+        content: '';
+        display: table;
+        clear: both;
+      }
+
+      /* 按钮右下角显示 */
+      #bottom {
+        margin-top: 40px;
+        text-align: right;
+      }
+
+      /* 提交按钮样式 */
+      #bottom #submit {
+        border: none;
+        border-radius: 4px;
+        font-size: 15px;
+        color: white;
+        background-color: #0062c2;
+        padding: 10px 15px 10px 18px;
+        margin-right: 65px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <div id="frame">
+      <div id="title" class="clearfix">
+        <span id="title_text" >案件分类</span>
+        <button id="bt1"><i class="fa fa-cog"></i></button>
+      </div>
+      <div id="content">
+        <div id="login_info" style="height: 30px">
+          <label for="lawyer"
+            ><i class="fa fa-user" style="margin-right: 8px"></i
+            >登录律师:</label
+          >
+          <input
+            id="lawyer"
+            class="transparent"
+            type="text"
+            value="张伟"
+            readonly
+          />
+          <label for="loginTime"
+            ><i class="fa fa-calendar" style="margin-right: 8px"></i
+            >登录时间:</label
+          >
+          <input
+            id="loginTime"
+            class="transparent"
+            type="text"
+            value="2023-09-23"
+            readonly
+          />
+        </div>
+        <ul id="case_ul" class="no-bullet-list">
+          <li>
+            <label for="year">*立案年份:</label>
+            <select id="year" name="year"></select>
+          </li>
+          <li>
+            <label> *立案类别: </label>
+            <div style="display: inline-block">
+              <input
+                type="radio"
+                name="type"
+                id="type_1"
+                value="民事"
+                class="radio-button"
+                checked
+              />
+              <label for="type_1">民事</label>
+
+              <input
+                type="radio"
+                name="type"
+                id="type_2"
+                value="刑事"
+                class="radio-button"
+              />
+              <label for="type_2">刑事</label>
+
+              <input
+                type="radio"
+                name="type"
+                id="type_3"
+                value="行政"
+                class="radio-button"
+              />
+              <label for="type_3">行政</label>
+
+              <input
+                type="radio"
+                name="type"
+                id="type_4"
+                value="非诉"
+                class="radio-button"
+              />
+              <label for="type_4">非诉</label>
+
+              <input
+                type="radio"
+                name="type"
+                id="type_5"
+                value="顾问"
+                class="radio-button"
+              />
+              <label for="type_5">顾问</label>
+
+              <input
+                type="radio"
+                name="type"
+                id="type_6"
+                value="咨询"
+                class="radio-button"
+              />
+              <label for="type_6">咨询</label>
+            </div>
+          </li>
+          <li>
+            <label for="caseNo">*立案编号:</label>
+            <span id="year_info" style="text-decoration: underline; font-weight: bold;"></span>
+            <span>法</span >
+            <span>东</span>
+            <span id="type_info" style="text-decoration: underline; font-weight: bold;"">民</span>
+            <span>字</span>
+            <span>第</span>
+            <input id="caseNo" type="text" />
+            <span>号</span>
+            <button id="confirm_bt" type="button">确定</button>
+          </li>
+          <li>
+            <label for="caseClient">*立案委托人:</label>
+            <input id="caseClient" type="text" value="张三" readonly />
+          </li>
+        </ul>
+      </div>
+      <div id="bottom">
+        <input id="submit" type="submit" value="下一步 >" />
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        // init
+        $('#year_info').text(new Date().getFullYear())
+        // $('#type_info').text($('input[name="type"]').val().substr(0,1))
+
+        // 添加下拉框年份选项
+        var currentYear = new Date().getFullYear()
+        var yearSelect = $('#year')
+        for (var i = currentYear; i >= 2000; i--) {
+          var option = $('<option>')
+            .val(i)
+            .text(i + '年')
+          yearSelect.append(option)
+        }
+
+        // 下拉框选择年份事件
+        yearSelect.on('change',function() {
+          var selectedYear = $(this).val()
+          $('#year_info').text(selectedYear)
+        })
+
+        // 单选案件类型点击事件
+        $('input[name="type"]').on('click', function() {
+          var typeValue = $(this).val()
+          var firstLetter = typeValue.substr(0,1)
+          $('#type_info').text(firstLetter)
+        })
+
+        // 点击下一步跳转
+        $('#submit').on('click', function() {
+          window.location.href = './electronic_dir.html'
+        })
+      })
+    </script>
+  </body>
+</html>
