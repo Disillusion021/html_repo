@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        height: 300px;
+      }
+      .item {
+        /* flex: 0 1 150px;的意思就是，项目的初始宽度是150px，且不可以扩大，但是当容器宽度不足150px时，项目可以缩小。*/
+        /* flex: 0 1 150px; */
+        /* 试试这个 如果写成flex: 1 1 150px;，就表示项目始终会占满所有宽度。*/
+        flex: 1 1 150px;
+        margin: 5px;
+        background-color: skyblue;
+        border: 2px solid;
+        /* 下面三行是为了让1,2,3始终居中显示 */
+        /* display: flex;
+        align-items: center;
+        justify-content: center; */
+        /* grid也可以实现,给place-items设置center,start,end分别为居中,左上角,右下角显示*/
+        display: grid;
+        place-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+  </body>
+</html>

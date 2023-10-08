@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>两栏布局:一栏固定宽度，一栏自适应</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      .left,
+      .right {
+        height: 200px;
+      }
+
+      .left {
+        float: left;
+        width: 200px;
+        background-color: skyblue;
+      }
+
+      .right {
+        margin-left: 200px; /* 还是建议用这种方式 */
+        /* overflow: hidden; */ /* 与上面的margin-left二选一即可,overflow是激活了BFC,所以会不会与float box重叠 */
+        background-color: greenyellow;
+      }
+
+      .flex-wrap {
+        display: flex;
+      }
+
+      .flex-left,
+      .flex-right {
+        height: 200px;
+      }
+
+      .flex-left {
+        width: 200px;
+        background-color: greenyellow;
+        flex: none;
+      }
+
+      .flex-right {
+        flex: auto;
+        background-color: skyblue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 普通方式实现两栏布局 -->
+    <p>普通布局:左栏float;右栏margin-left;</p>
+    <div class="left">left</div>
+    <div class="right">right</div>
+    <!-- 弹性布局实现两栏布局 -->
+    <div class="flex-wrap">
+      <div class="flex-left">left</div>
+      <div class="flex-right">right</div>
+    </div>
+    <p>弹性布局:左栏固定宽度+flex:none;右栏flex:auto;</p>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>两栏布局:一栏不定宽，一栏自适应</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      .left,
+      .right {
+        height: 200px;
+      }
+
+      .left {
+        float: left;
+        background-color: skyblue;
+      }
+
+      .right {
+        overflow: hidden; /* overflow是激活了BFC,所以会不会与float box重叠 */
+        background-color: greenyellow;
+      }
+
+      .flex-wrap {
+        display: flex;
+      }
+
+      .flex-left,
+      .flex-right {
+        height: 200px;
+      }
+
+      .flex-left {
+        background-color: greenyellow;
+      }
+
+      .flex-right {
+        flex: auto;
+        background-color: skyblue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 两栏布局左栏不定宽，右栏自适应 -->
+    <p>普通布局:左栏float不设置宽度;右栏用overflow:hidden自适应;</p>
+    <div class="left">left</div>
+    <div class="right">right</div>
+    <!-- 弹性布局实现左栏不定宽，右栏自适应 -->
+    <div class="flex-wrap">
+      <div class="flex-left">left</div>
+      <div class="flex-right">right</div>
+    </div>
+    <p>弹性布局:左栏不设置宽度;右栏flex:auto;</p>
+  </body>
+</html>

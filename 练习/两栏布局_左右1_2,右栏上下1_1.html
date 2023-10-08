@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>左右宽度比为1:2,右边又分为上下结构,高度比为1:1</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+
+      .wrap {
+        display: flex;
+        height: 500px;
+      }
+
+      .left {
+        width: 33.3%;
+        background-color: skyblue;
+      }
+
+      .right {
+        flex: auto;
+      }
+
+      .rigTop {
+        background-color: yellow;
+        height: 50%;
+      }
+
+      .rigBot {
+        background-color: greenyellow;
+        height: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="left">left</div>
+      <div class="right">
+        <div class="rigTop">rigTop</div>
+        <div class="rigBot">rigBot</div>
+    </div>
+  </body>
+</html>
