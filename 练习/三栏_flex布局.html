@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>三栏_flex布局</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+
+      .container {
+        display: flex;
+        height: 500px;
+      }
+
+      .left {
+        width: 100px;
+        flex: none;
+        order: 0;
+        background-color: greenyellow;
+      }
+
+      .center {
+        flex: auto;
+        order: 1;
+        background-color: red;
+      }
+
+      .right {
+        width: 100px;
+        flex: none;
+        order: 2;
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- 先写center节点，让其先加载，然后用order属性，把他排到中间的位置 -->
+      <div class="center"></div>
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
+  </body>
+</html>
