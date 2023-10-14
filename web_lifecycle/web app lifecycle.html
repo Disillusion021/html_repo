@@ -1,46 +1,54 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Web app lifecycle</title>
-        <style>
-            #first {color: green;}    
-            #second {color: red;}    
-        </style>
-        <p>hello</p>
-        <!-- 浏览器只是把html当作构造DOM树的蓝图,并不是总按给定的html来渲染页面 -->
-        <!-- 比如这里把p标签放到了<head>标签中,浏览器就会自动修复,把p标签放到<body>中 -->
-    </head>
-    <body>
-        <ul id="first"></ul>
-        <script>
-            function addMessage(element, message) {
-                // 只有函数被调用才会执行函数内部的代码
-                var messageElement = document.createElement("li");
-                messageElement.textContent = message;
-                element.appendChild(messageElement);
-            }
-            var first = document.getElementById("first");
-            addMessage(first, "Page loading");
-        </script>
-        <!-- 浏览器Web应用分为两个阶段: 页面构建 和 事件处理 -->
-        <!-- 页面构建分为两个步骤: 构建DOM 和 执行JS, 两个步骤交替执行 -->
-        <!-- 执行到这里时, 还没有生成 id为"second"的ul元素 -->
-        <ul id="second">second</ul>
-        <script>
-            document.body.addEventListener("mousemove", function() {
-                var second = document.getElementById("second");
-                addMessage(second, "Event: mousemove");
-            })
-            // 使用addEventListener可以对同一个事件注册多个事件处理器,如下,对页面click注册了两个事件处理器(函数)
-            document.body.addEventListener("click", function() {
-                var second = document.getElementById("second");
-                addMessage(second, "Event: click");
-            })
-            document.body.addEventListener("click", function() {
-                var second = document.getElementById("second");
-                addMessage(second, "Event: click2");
-            })
-        </script>
-        <!-- 事件处理阶段 按事件生成的顺序即添加到事件队列中的顺序执行 -->
-    </body>
+  <head>
+    <title>Web app lifecycle</title>
+    <style>
+      #first {
+        color: green;
+      }
+      #second {
+        color: red;
+      }
+    </style>
+    <p>hello</p>
+    <!-- 浏览器只是把html当作构造DOM树的蓝图,并不是总按给定的html来渲染页面 -->
+    <!-- 比如这里把p标签放到了<head>标签中,浏览器就会自动修复,把p标签放到<body>中 -->
+  </head>
+  <body>
+    <ul id="first"></ul>
+    <script>
+      function addMessage(element, message) {
+        // 只有函数被调用才会执行函数内部的代码
+        var messageElement = document.createElement('li')
+        messageElement.textContent = message
+        element.appendChild(messageElement)
+      }
+      var first = document.getElementById('first')
+      addMessage(first, 'Page loading')
+    </script>
+    <!-- 浏览器Web应用分为两个阶段: 页面构建 和 事件处理 -->
+    <!-- 页面构建分为两个步骤: 构建DOM 和 执行JS, 两个步骤交替执行 -->
+    <!-- 执行到这里时, 还没有生成 id为"second"的ul元素 -->
+    <ul id="second">
+      second
+    </ul>
+    <script>
+      document.body.addEventListener('mousemove', function () {
+        console.log(this) // 函数中的this始终指向函数的调用方,所以this=document.body
+        var second = document.getElementById('second')
+        addMessage(second, 'Event: mousemove')
+      })
+      // 使用addEventListener可以对同一个事件注册多个事件处理器,如下,对页面click注册了两个事件处理器(函数)
+      document.body.addEventListener('click', () => {
+        console.log(this) // λ表达式的this看静态作用域,所以this=window
+        var second = document.getElementById('second')
+        addMessage(second, 'Event: click')
+      })
+      document.body.addEventListener('click', () => {
+        var second = document.getElementById('second')
+        addMessage(second, 'Event: click2')
+      })
+    </script>
+    <!-- 事件处理阶段 按事件生成的顺序即添加到事件队列中的顺序执行 -->
+  </body>
 </html>
