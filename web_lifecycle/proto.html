@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // A instanceof B <=> A.__proto__.__proto__... = B.prototype
+      // 如果A实例的原型链上存在B的原型,则A是B的实例
+
+      // Function 继承自 Object, 一切都由Object.prototype派生
+      // Object.prototype => Function.prototype => Function() => Object() 和 fn() => 各种实例对象
+
+      // Date() 继承自 Function 继承自 Object
+      console.log(Date.__proto__ === Function.prototype)
+      console.log(Function.prototype.__proto__ === Object.prototype)
+      console.log(Date.__proto__.__proto__ === Object.prototype)
+      console.log(Date instanceof Function) // Date函数是Function的实例
+      console.log(Function instanceof Object) // Function函数是Object的实例
+      console.log(Date instanceof Object) // Date函数是Object的实例
+
+      // Object() 继承自 Function 继承自 Object
+      console.log(Object.__proto__ === Function.prototype)
+      console.log(Function.prototype.__proto__ === Object.prototype)
+      console.log(Object.__proto__.__proto__ === Object.prototype)
+      console.log(Object instanceof Function) // Object函数是Function的实例
+      console.log(Function instanceof Object) // Function函数是Object的实例
+      console.log(Object instanceof Object) // Object函数是Object的实例
+    </script>
+  </body>
+</html>
