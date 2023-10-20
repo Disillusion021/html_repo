@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="../js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="css/pagination.css" />
     <title>主画面</title>
     <style>
       body {
@@ -13,9 +14,10 @@
 
       #title {
         height: 48px;
-        border-bottom: 1px solid gainsboro;
+        border-bottom: 2px solid gainsboro;
       }
 
+      /* 图片自适应大小但不超过图片原始大小 */
       #logo {
         max-height: 100%;
         width: auto;
@@ -38,19 +40,20 @@
         line-height: 48px;
       }
 
-      .flex-wrap {
+      #container {
         display: flex;
-        height: 352px;
+        height: calc(100vh - 50px);
       }
 
       #side {
         width: 220px;
         flex: none;
+        border-right: 2px solid gainsboro;
       }
 
       #main {
         flex: auto;
-        background-color: skyblue;
+        /* background-color: skyblue; */
       }
 
       /* 文件目录树样式 */
@@ -138,7 +141,7 @@
       }
 
       #main_top {
-        background-color: greenyellow;
+        height: 46px;
       }
 
       /* 扫描按钮 */
@@ -160,6 +163,65 @@
         line-height: 46px;
         font-size: 15px;
       }
+
+      /* 表格区域 */
+      #main_content {
+        height: calc(100% - 46px);
+        overflow: hidden;
+        padding: 0px 15px;
+      }
+
+      /* 表格样式 */
+      #content_tb {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        border-style: hidden;
+        border-radius: 4px;
+        overflow: hidden;
+        outline: 1px solid #ccc;
+        margin: 16px auto;
+      }
+      #content_tb th {
+        font-size: 15px;
+        font-weight: normal;
+        padding: 0.5em 1em;
+        border: 1px solid #ccc;
+        background: #f2f2f2;
+      }
+      #content_tb td {
+        font-size: 14px;
+        padding: 0.5em 1em;
+        border: 1px solid #ccc;
+        /* 不换行,超出显示省略号 */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      /* #content_tb tr:nth-child(even) {
+        background-color: #dee8f5;
+      } */
+      /* 复选框大小 */
+      #content_tb input[name='id'] {
+        width: 14px;
+        height: 14px;
+      }
+      /* 复选框列宽 */
+      #content_tb tr > td:first-child {
+        padding: 0.5em 0.5em;
+      }
+      .file-name {
+        max-width: 188px;
+      }
+      .file-date {
+        max-width: 80px;
+      }
+      .file-size {
+        max-width: 70px;
+      }
+
+      #main_content_page {
+        float: right;
+      }
     </style>
   </head>
 
@@ -174,7 +236,7 @@
       </select>
       <span id="userFont">用户</span>
     </div>
-    <div id="container" class="flex-wrap">
+    <div id="container">
       <div id="side">
         <div class="tree" id="tree">
           <details>
@@ -309,7 +371,116 @@
           <span id="breadcrumb"> 我的文件/study/英语 </span>
           <button id="scan_btn">扫描</button>
         </div>
+        <div id="main_content">
+          <table id="content_tb">
+            <thead>
+              <tr>
+                <th></th>
+                <th>文件名</th>
+                <th>日期</th>
+                <th>大小</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tr>
+              <td>
+                <input type="checkbox" name="id" value="1" />
+              </td>
+              <td class="file-name">fdasfdsafadsfdsafasd.pdf</td>
+              <td class="file-date">2023-10-20</td>
+              <td class="file-size">1356.24ssfdsafkb</td>
+              <td class="file-operate">
+                <a href="#">打印</a>
+                <a href="del">删除</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="id" value="1" />
+              </td>
+              <td class="file-name">
+                fadsfadsfdsafasdfdasfadsffdasfdsafadsfdsafasd.pdf
+              </td>
+              <td class="file-date">2023-10-20</td>
+              <td class="file-size">356kb</td>
+              <td class="file-operate">
+                <a href="#">打印</a>
+                <a href="del">删除</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="id" value="1" />
+              </td>
+              <td class="file-name">fdasfdsafadsfdsafasd.pdf</td>
+              <td class="file-date">2023-10-20</td>
+              <td class="file-size">356kb</td>
+              <td class="file-operate">
+                <a href="#">打印</a>
+                <a href="del">删除</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="id" value="1" />
+              </td>
+              <td class="file-name">fdasfdsafadsfdsafasd.pdf</td>
+              <td class="file-date">2023-10-20</td>
+              <td class="file-size">356kb</td>
+              <td class="file-operate">
+                <a href="#">打印</a>
+                <a href="del">删除</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="id" value="1" />
+              </td>
+              <td class="file-name">fdasfdsafadsfdsafasd.pdf</td>
+              <td class="file-date">2023-10-20</td>
+              <td class="file-size">356kb</td>
+              <td class="file-operate">
+                <a href="#">打印</a>
+                <a href="del">删除</a>
+              </td>
+            </tr>
+          </table>
+          <div id="main_content_page"></div>
+        </div>
       </div>
     </div>
+    <script src="../js/pagination.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script>
+      $(document).ready(function () {
+        const ellipsisElements = $('td')
+          .filter(function () {
+            return (
+              $(this).css('text-overflow') === 'ellipsis' &&
+              this.scrollWidth > this.clientWidth
+            )
+          })
+          .toArray()
+        console.log(ellipsisElements)
+        tippy(ellipsisElements, {
+          content: function (ref) {
+            return ref.innerHTML
+          }
+        })
+        $.extend($.fn.pagination.defaults, {
+          pageSize: 5
+        })
+        $('#main_content_page').pagination({
+          dataSource: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+          className: 'paginationjs-small', // 设置小样式
+          callback: function (data, pagination) {
+            // template method of yourself
+            // var html = ''
+            $('#main_content_page').html(undefined)
+          }
+        })
+      })
+    </script>
   </body>
 </html>
