@@ -14,6 +14,7 @@
 
       #title {
         height: 48px;
+        background-color: black;
         border-bottom: 2px solid gainsboro;
       }
 
@@ -26,12 +27,13 @@
       #username {
         float: right;
         font-size: 15px;
-        width: 150px;
+        width: 100px;
         height: 28px;
         margin: 10px 15px 10px 10px;
         border-color: #c0c0c0;
         border-radius: 4px;
         outline: none;
+        text-align: center;
       }
 
       #userFont {
@@ -79,6 +81,31 @@
         padding-left: 20px;
         list-style: none;
       }
+      ::-webkit-details-marker {
+        display: none;
+      }
+      ::-moz-list-bullet {
+        font-size: 0;
+        float: left;
+      }
+      /* 设置滚动条的样式 */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      /* 滚动槽 */
+      ::-webkit-scrollbar-track {
+        border-radius: 10px;
+      }
+      /* 滚动条滑块 */
+      ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.1);
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+      }
       /* 文件夹关闭时小三角图标 */
       .tree summary:not(:only-child) {
         background: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.354 2.646A.5.5 0 0 0 4.5 3v6a.5.5 0 0 0 .854.354l3-3a.5.5 0 0 0 0-.708l-3-3z' fill='%23000' fill-opacity='.45'/%3E%3C/svg%3E")
@@ -94,7 +121,7 @@
         white-space: nowrap;
         align-items: center;
         height: 26px;
-        font-size: 14px;
+        font-size: 15px;
         line-height: 26px;
         /* 自定义点击范围: 点击整行都可以 */
         padding-left: 400px;
@@ -125,12 +152,16 @@
         height: 20px;
         flex-shrink: 0;
         margin-right: 8px;
-        background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M.833 3.75c0-.92.746-1.667 1.667-1.667h5.417c.247 0 .481.11.64.3l1.833 2.2h7.11c.92 0 1.667.747 1.667 1.667v10c0 .92-.747 1.667-1.667 1.667h-15c-.92 0-1.667-.746-1.667-1.667V3.75zm6.693 0H2.5v4.584h15V6.25H10a.833.833 0 0 1-.64-.3l-1.834-2.2zM17.5 10h-15v6.25h15V10z' fill='%23000' fill-opacity='.45'/%3E%3C/svg%3E")
-          center no-repeat;
+        /* background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M.833 3.75c0-.92.746-1.667 1.667-1.667h5.417c.247 0 .481.11.64.3l1.833 2.2h7.11c.92 0 1.667.747 1.667 1.667v10c0 .92-.747 1.667-1.667 1.667h-15c-.92 0-1.667-.746-1.667-1.667V3.75zm6.693 0H2.5v4.584h15V6.25H10a.833.833 0 0 1-.64-.3l-1.834-2.2zM17.5 10h-15v6.25h15V10z' fill='%23000' fill-opacity='.45'/%3E%3C/svg%3E")
+          center no-repeat; */
+        background: url('img/folderclose.png') center no-repeat;
+        background-size: cover;
       }
       /* 文件夹打开图标 */
       .tree details[open] > summary:not(:only-child) > .tree-item::before {
-        background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7.917 2.083c.247 0 .481.11.64.3l1.833 2.2h5.443c.92 0 1.667.747 1.667 1.667v1.667h.833a.833.833 0 0 1 .817.997l-1.666 8.333a.833.833 0 0 1-.817.67H1.677a.814.814 0 0 1-.157-.013.83.83 0 0 1-.687-.82V3.75c0-.92.746-1.667 1.667-1.667h5.417zM10 6.25a.833.833 0 0 1-.64-.3l-1.834-2.2H2.5v6.564l.441-1.766a.833.833 0 0 1 .809-.631h12.083V6.25H10zm-7.266 10L4.4 9.584h12.916l-1.334 6.666H2.733z' fill='%23000' fill-opacity='.45'/%3E%3C/svg%3E");
+        /* background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7.917 2.083c.247 0 .481.11.64.3l1.833 2.2h5.443c.92 0 1.667.747 1.667 1.667v1.667h.833a.833.833 0 0 1 .817.997l-1.666 8.333a.833.833 0 0 1-.817.67H1.677a.814.814 0 0 1-.157-.013.83.83 0 0 1-.687-.82V3.75c0-.92.746-1.667 1.667-1.667h5.417zM10 6.25a.833.833 0 0 1-.64-.3l-1.834-2.2H2.5v6.564l.441-1.766a.833.833 0 0 1 .809-.631h12.083V6.25H10zm-7.266 10L4.4 9.584h12.916l-1.334 6.666H2.733z' fill='%23000' fill-opacity='.45'/%3E%3C/svg%3E"); */
+        background: url('img/folderopen.png') center no-repeat;
+        background-size: cover;
       }
 
       /* 清除浮动 */
@@ -151,7 +182,7 @@
         float: right;
         font-size: 15px;
         color: white;
-        background-color: #0062c2;
+        background-color: #007da8;
         padding: 5px 22px 5px 22px;
         margin: 8px 15px 8px 0px;
         cursor: pointer;
@@ -161,7 +192,7 @@
       #breadcrumb {
         padding-left: 15px;
         line-height: 46px;
-        font-size: 15px;
+        font-size: 16px;
       }
 
       /* 表格区域 */
@@ -179,14 +210,16 @@
         border-radius: 4px;
         overflow: hidden;
         outline: 1px solid #ccc;
-        margin: 16px auto;
+        margin: 18px auto 22px auto;
       }
       #content_tb th {
         font-size: 15px;
         font-weight: normal;
         padding: 0.5em 1em;
         border: 1px solid #ccc;
-        background: #f2f2f2;
+        /* background: #f2f2f2; */
+        color: white;
+        background: #007da8;
       }
       #content_tb td {
         font-size: 14px;
@@ -210,13 +243,24 @@
         padding: 0.5em 0.5em;
       }
       .file-name {
-        max-width: 188px;
+        max-width: 165px;
       }
       .file-date {
-        max-width: 80px;
+        max-width: 78px;
       }
       .file-size {
-        max-width: 70px;
+        max-width: 62px;
+      }
+
+      .operate_btn {
+        border: none;
+        border-radius: 3px;
+        font-size: 14px;
+        color: white;
+        background-color: #007da8;
+        /* background-color: #0062c2; */
+        padding: 4px 8px;
+        cursor: pointer;
       }
 
       #main_content_page {
@@ -227,12 +271,10 @@
 
   <body>
     <div id="title" class="row">
-      <img id="logo" src="../img/konika.png" />
+      <img id="logo" src="img/konica_black.jpg" />
       <select id="username" name="username">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="audi">Audi</option>
+        <option value="volvo" hidden>Volvo</option>
+        <option value="logout">Logout</option>
       </select>
       <span id="userFont">用户</span>
     </div>
@@ -390,8 +432,12 @@
               <td class="file-date">2023-10-20</td>
               <td class="file-size">1356.24ssfdsafkb</td>
               <td class="file-operate">
-                <a href="#">打印</a>
-                <a href="del">删除</a>
+                <button type="button" class="operate_btn print_btn">
+                  打印
+                </button>
+                <button type="button" class="operate_btn remove_btn">
+                  删除
+                </button>
               </td>
             </tr>
             <tr>
@@ -402,10 +448,14 @@
                 fadsfadsfdsafasdfdasfadsffdasfdsafadsfdsafasd.pdf
               </td>
               <td class="file-date">2023-10-20</td>
-              <td class="file-size">356kb</td>
+              <td class="file-size">356.24kb</td>
               <td class="file-operate">
-                <a href="#">打印</a>
-                <a href="del">删除</a>
+                <button type="button" class="operate_btn print_btn">
+                  打印
+                </button>
+                <button type="button" class="operate_btn remove_btn">
+                  删除
+                </button>
               </td>
             </tr>
             <tr>
@@ -416,8 +466,12 @@
               <td class="file-date">2023-10-20</td>
               <td class="file-size">356kb</td>
               <td class="file-operate">
-                <a href="#">打印</a>
-                <a href="del">删除</a>
+                <button type="button" class="operate_btn print_btn">
+                  打印
+                </button>
+                <button type="button" class="operate_btn remove_btn">
+                  删除
+                </button>
               </td>
             </tr>
             <tr>
@@ -428,8 +482,12 @@
               <td class="file-date">2023-10-20</td>
               <td class="file-size">356kb</td>
               <td class="file-operate">
-                <a href="#">打印</a>
-                <a href="del">删除</a>
+                <button type="button" class="operate_btn print_btn">
+                  打印
+                </button>
+                <button type="button" class="operate_btn remove_btn">
+                  删除
+                </button>
               </td>
             </tr>
             <tr>
@@ -440,8 +498,28 @@
               <td class="file-date">2023-10-20</td>
               <td class="file-size">356kb</td>
               <td class="file-operate">
-                <a href="#">打印</a>
-                <a href="del">删除</a>
+                <button type="button" class="operate_btn print_btn">
+                  打印
+                </button>
+                <button type="button" class="operate_btn remove_btn">
+                  删除
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="id" value="1" />
+              </td>
+              <td class="file-name">fdasfdsafadsfdsafasd.pdf</td>
+              <td class="file-date">2023-10-20</td>
+              <td class="file-size">356kb</td>
+              <td class="file-operate">
+                <button type="button" class="operate_btn print_btn">
+                  打印
+                </button>
+                <button type="button" class="operate_btn remove_btn">
+                  删除
+                </button>
               </td>
             </tr>
           </table>
@@ -454,6 +532,7 @@
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script>
       $(document).ready(function () {
+        // tippy提示
         const ellipsisElements = $('td')
           .filter(function () {
             return (
@@ -462,14 +541,15 @@
             )
           })
           .toArray()
-        console.log(ellipsisElements)
         tippy(ellipsisElements, {
           content: function (ref) {
             return ref.innerHTML
           }
         })
+
+        // 分页设置
         $.extend($.fn.pagination.defaults, {
-          pageSize: 5
+          pageSize: 3
         })
         $('#main_content_page').pagination({
           dataSource: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
@@ -479,6 +559,21 @@
             // var html = ''
             $('#main_content_page').html(undefined)
           }
+        })
+
+        // 扫描按钮跳转扫描页
+        $('#scan_btn').on('click', function () {
+          window.location.href = './scan_page.html'
+        })
+
+        // 打印按钮跳转打印页
+        $('.print_btn').on('click', function () {
+          window.location.href = './print_page.html'
+        })
+
+        // Logout登出
+        $('#username').on('change', function () {
+          window.location.href = './blank.html'
         })
       })
     </script>
