@@ -453,42 +453,45 @@
             </div>
           </div>
           <div id="content_operate">
-            <div class="print_option">
-              <span>彩色</span>
-              <input type="checkbox" name="isColorful" id="isColorful" />
-            </div>
-            <div class="print_option">
-              <span>双面</span>
-              <input type="checkbox" name="isDoublePage" id="isDoublePage" />
-            </div>
-            <div class="print_option">
-              <span>小册子</span>
-              <input type="checkbox" name="isBook" id="isBook" />
-            </div>
-            <div class="print_option layui-form">
-              <div class="layui-row layui-col-space16">
-                <div class="layui-col-xs5">
-                  <span id="count_span">部数</span>
-                </div>
-                <div class="layui-col-xs6">
-                  <input
-                    type="number"
-                    id="count"
-                    lay-affix="number"
-                    placeholder="1"
-                    value="1"
-                    min="1"
-                    class="layui-input"
-                  />
+            <form method="post" action="">
+              <div class="print_option">
+                <span>彩色</span>
+                <input type="checkbox" name="isColorful" id="isColorful" />
+              </div>
+              <div class="print_option">
+                <span>双面</span>
+                <input type="checkbox" name="isDoublePage" id="isDoublePage" />
+              </div>
+              <div class="print_option">
+                <span>小册子</span>
+                <input type="checkbox" name="isBook" id="isBook" />
+              </div>
+              <div class="print_option layui-form">
+                <div class="layui-row layui-col-space16">
+                  <div class="layui-col-xs5">
+                    <span id="count_span">部数</span>
+                  </div>
+                  <div class="layui-col-xs6">
+                    <input
+                      type="number"
+                      id="count"
+                      name="count"
+                      lay-affix="number"
+                      placeholder="1"
+                      value="1"
+                      min="1"
+                      class="layui-input"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div id="operate_btn_div">
-              <button type="button" id="pause_btn">暂停</button>
-              <button type="button" id="stop_btn">停止</button>
-              <button type="button" id="return_btn">返回</button>
-              <button type="button" id="print_btn">打印</button>
-            </div>
+              <div id="operate_btn_div">
+                <button type="button" id="pause_btn">暂停</button>
+                <button type="button" id="stop_btn">停止</button>
+                <button type="button" id="return_btn">返回</button>
+                <button type="submit" id="print_btn">打印</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

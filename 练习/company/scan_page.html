@@ -413,41 +413,43 @@
             </div>
           </div>
           <div id="content_operate">
-            <div class="scan_option clearfix">
-              <span>扫描类型</span>
-              <select name="scan_type" id="scan_type">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </div>
-            <div class="scan_option clearfix">
-              <span>颜色</span>
-              <select name="scan_color" id="scan_color">
-                <option value="monochrome">单色</option>
-                <option value="colorful">彩色</option>
-              </select>
-            </div>
-            <div class="scan_option clearfix">
-              <span>文件类型</span>
-              <select name="file_type" id="file_type">
-                <option value="pdf">pdf</option>
-                <option value="jpg">jpg</option>
-              </select>
-            </div>
-            <div class="scan_option clearfix">
-              <span>解像度</span>
-              <select name="resolution" id="resolution">
-                <option value="small">800 * 400</option>
-                <option value="large">1920 * 1080</option>
-              </select>
-            </div>
-            <div id="operate_btn_div">
-              <button type="button" id="pause_btn">暂停</button>
-              <button type="button" id="stop_btn">停止</button>
-              <button type="button" id="return_btn">返回</button>
-              <button type="button" id="scan_btn">扫描</button>
-            </div>
+            <form method="post" action="">
+              <div class="scan_option clearfix">
+                <span>扫描类型</span>
+                <select name="scan_type" id="scan_type">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+              <div class="scan_option clearfix">
+                <span>颜色</span>
+                <select name="scan_color" id="scan_color">
+                  <option value="monochrome">单色</option>
+                  <option value="colorful">彩色</option>
+                </select>
+              </div>
+              <div class="scan_option clearfix">
+                <span>文件类型</span>
+                <select name="file_type" id="file_type">
+                  <option value="pdf">pdf</option>
+                  <option value="jpg">jpg</option>
+                </select>
+              </div>
+              <div class="scan_option clearfix">
+                <span>解像度</span>
+                <select name="resolution" id="resolution">
+                  <option value="small">800 * 400</option>
+                  <option value="large">1920 * 1080</option>
+                </select>
+              </div>
+              <div id="operate_btn_div">
+                <button type="button" id="pause_btn">暂停</button>
+                <button type="button" id="stop_btn">停止</button>
+                <button type="button" id="return_btn">返回</button>
+                <button type="submit" id="scan_btn">扫描</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
