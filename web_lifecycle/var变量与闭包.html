@@ -34,7 +34,7 @@
       for (var i = 0, length = btns0.length; i < length; i++) {
         var btn = btns0[i]
         btn.onclick = function () {
-          alert('第' + i + '个')
+          alert('第' + i + '个') // 每次点击都是3,不对
         }
         console.log(btn.onclick)
       }
@@ -66,7 +66,7 @@
         ;(function (i) {
           var btn = btns3[i]
           btn.onclick = function () {
-            alert('第' + i + '个')
+            alert('第' + i + '个') // 利用闭包来实现,每次循环都会创建独立的IIFE的词法环境
           }
           console.log(btn.onclick)
         })(i)
@@ -82,11 +82,10 @@
       }
       var myNum = showNum()
       console.log(myNum()) // 12
-      console.log(myNum()) // 13
 
       /** 不用闭包正常返回
        * showNumO函数执行完,将返回值赋值给myNum1, showNumO函数就没有被引用了,showNum0上下文(栈空间)会被垃圾回收
-       * 并且showNum执行完, num变量就不存在了
+       * 并且showNum0执行完, num变量就不存在了
        */
       function showNumO() {
         var num = 10
@@ -96,7 +95,7 @@
       console.log(myNum1)
       // 是不是觉得showNumO这种不就可以了吗,干嘛要多次一举,返回个函数showNum2去使用showNum中定义的变量num?
       // 那是因为你没有见识到下面的用法,其实我感觉跟Java里的Bean对象差不多,私有变量只能通过public方法暴露访问器和修改器
-      // 详见MDN
+      // 详见MDN https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures
     </script>
   </body>
 </html>

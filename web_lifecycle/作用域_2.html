@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var fn = function () {
+        console.log(fn)
+      }
+      fn() // 首先在函数内查找fn变量,没有,继续在全局作用域查找,有,输出fn函数
+      var obj = {
+        fn2: function () {
+          debugger
+          console.log(fn2)
+        }
+      }
+      obj.fn2() // 首先在函数内查找fn2变量,没有,继续在全局作用域查找,没有,报错
+      // 因为fn2是obj的一个属性,所以全局作用域只有obj,没有fn2
+    </script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var x = 10
+      function fn() {
+        console.log(x)
+      }
+      function show(f) {
+        var x = 20
+        f()
+      }
+      show(fn) // 输出10, 因为作用域是定义时确定的,fn的上一级作用域是全局作用域
+    </script>
+  </body>
+</html>
