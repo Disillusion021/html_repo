@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="../js/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="css/pagination.css" />
     <title>主画面</title>
     <style>
@@ -145,6 +144,10 @@
       .tree-item:hover::after {
         opacity: 1;
       }
+      /* 选中效果 */
+      .selected {
+        background-color: #edf6ff;
+      }
       /* 文件夹关闭图标 */
       .tree-item::before {
         content: '';
@@ -281,7 +284,7 @@
     <div id="container">
       <div id="side">
         <div class="tree" id="tree">
-          <details>
+          <!-- <details>
             <details>
               <summary>
                 <span class="tree-item">文件夹0</span>
@@ -405,12 +408,12 @@
                 <span class="tree-item">文件夹1-4</span>
               </summary>
             </details>
-          </details>
+          </details> -->
         </div>
       </div>
       <div id="main">
         <div id="main_top" class="clearfix">
-          <span id="breadcrumb"> 我的文件/study/英语 </span>
+          <span id="breadcrumb"> 个人空间 </span>
           <button type="button" id="scan_btn">扫描</button>
         </div>
         <div id="main_content">
@@ -527,11 +530,96 @@
         </div>
       </div>
     </div>
-    <script src="../js/pagination.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/pagination.min.js"></script>
     <script>
       $(document).ready(function () {
+        var breadcrumbObj = {}
+
+        // 模拟登录接口
+        async function login(username, password) {
+          const res = await $.ajax({
+            url: 'http://localhost:8088/prod-api/loginTest',
+            type: 'POST',
+            data: JSON.stringify({ username: username, password: password }),
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8'
+          })
+          localStorage.setItem('token', res.token) // 将获取到的 token 保存到本地存储中
+        }
+
+        // Ajax请求后台目录树并渲染
+        async function getTree() {
+          const res = await $.ajax({
+            url: 'http://localhost:8088/prod-api/system/folder/folderTree',
+            type: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('token') // 将 token 放入请求头中
+            },
+            dataType: 'json'
+          })
+          if (res.code === 401) {
+            console.log('401重新请求登录')
+            login('ceshi1', '123456').then(getTree)
+          } else {
+            $('#tree').html(gen_tree(res.data))
+            addClickEventForTreeItem()
+          }
+        }
+        getTree()
+
+        // 生成treeHtml
+        function gen_tree(childs) {
+          var html = ''
+          childs.forEach((el) => {
+            html += `<details>
+            <summary>
+              <span class="tree-item" id="${el.id}" label="${el.label}" type="${el.type}" folderRelation="${el.folderRelation}" children="${el.children}" manager="${el.manager}">${el.label}</span>
+            </summary>`
+            if (el.children && el.children.length) {
+              html += gen_tree(el.children) // 如果有chidren就继续遍历
+            }
+            html += `</details>`
+          })
+          return html
+        }
+
+        // 添加树节点点击事件
+        function addClickEventForTreeItem() {
+          $('.tree-item').on('click', function () {
+            // 移除之前选中的元素的样式
+            $('.selected').removeClass('selected')
+            // 添加当前选中元素的样式
+            $(this).addClass('selected')
+            // 修改面包屑
+            let breadcrumbIds = $(this).attr('folderRelation').split('-')
+            if (breadcrumbIds[0] === 'null') {
+              // 处理顶级节点
+              breadcrumbIds.splice(0, 1)
+            }
+            if (breadcrumbIds[0] === '') {
+              // 处理-3文件夹
+              breadcrumbIds.splice(0, 1)
+              breadcrumbIds[0] = '-3'
+            }
+            let currentFolderId = $(this).attr('id')
+            breadcrumbIds.push(currentFolderId)
+            let breadcrumbText = ''
+            breadcrumbIds.forEach((folderId) => {
+              breadcrumbText +=
+                '/' + $('.tree-item[id="' + folderId + '"]').attr('label')
+            })
+            breadcrumbText = breadcrumbText.substring(1)
+            $('#breadcrumb').html(breadcrumbText)
+            breadcrumbObj['breadcrumbIds'] = breadcrumbIds
+            breadcrumbObj['breadcrumbText'] = breadcrumbText
+            breadcrumbObj['currentFolderId'] = currentFolderId
+            // console.log(breadcrumbObj)
+          })
+        }
+
         // tippy提示
         const ellipsisElements = $('td')
           .filter(function () {
@@ -563,12 +651,30 @@
 
         // 扫描按钮跳转扫描页
         $('#scan_btn').on('click', function () {
-          window.location.href = './scan_page.html'
+          const treeHtml = $('#tree').html()
+          const encodedTreeHtml = encodeURIComponent(treeHtml)
+          const encodedBreadCrumb = encodeURIComponent(
+            JSON.stringify(breadcrumbObj)
+          )
+          window.location.href =
+            './scan_page.html?treeHtml=' +
+            encodedTreeHtml +
+            '&breadcrumbObj=' +
+            encodedBreadCrumb
         })
 
         // 打印按钮跳转打印页
         $('.print_btn').on('click', function () {
-          window.location.href = './print_page.html'
+          const treeHtml = $('#tree').html()
+          const encodedTreeHtml = encodeURIComponent(treeHtml)
+          const encodedBreadCrumb = encodeURIComponent(
+            JSON.stringify(breadcrumbObj)
+          )
+          window.location.href =
+            './print_page.html?treeHtml=' +
+            encodedTreeHtml +
+            '&breadcrumbObj=' +
+            encodedBreadCrumb
         })
 
         // Logout登出
