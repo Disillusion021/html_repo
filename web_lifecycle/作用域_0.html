@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var ninja = 'Muneyoshi'
+      function skulk() {
+        var action = 0
+        this.report1 = function () {
+          var intro = 'Aha1'
+          ++action
+        }
+        this.report2 = function () {
+          debugger
+          // 由于此时正在调用report2函数,所以创建了一个report2词法环境,查看report2词法环境,intro应为undefined
+          // 此时report1已经结束了调用,所以report1词法环境也结束了(内部若是有嵌套函数,其实还是可能访问到该report1词法环境的,不过此例没有).
+          var intro = 'Aha2'
+          ++action
+        }
+        debugger
+        this.getAction = function () {
+          return action
+        }
+      }
+      var sss = new skulk()
+      // 当调用new skulk()时是存在skulk词法环境的.不过调用结束后,skulk词法环境也结束了.
+      // 但是skulk函数中有嵌套函数,形成了闭包,所以通过sss.report1或sss.report2的[[Scope]][0]还是可以访问到从创建sss对象时的词法环境的.
+      // new skulk()时,内部执行创建函数语句并赋值给了report1和report2
+      // 函数在**创建**时会在自己的[[Scope]][0]属性内建立对外部词法环境的引用
+      debugger
+      sss.report1()
+      sss.report2()
+      // 由于sss.report1和sss.report2在创建时引用的是同一个词法环境,所以都是对创建sss对象时的skulk词法环境内的action进行更改.
+
+      //创建了一个新的skulk词法环境
+      var qqq = new skulk()
+      qqq.report1() // 修改的是创建qqq时的skulk词法环境
+      qqq.report2 = sss.report2 // 此时qqq.report2引用了sss.report2,[[Scope]][0]引用的是创建sss时的skulk词法环境
+      qqq.report2() // 修改的是创建sss时的skulk词法环境
+      console.log(sss.getAction()) // 3
+      console.log(qqq.getAction()) // 1
+    </script>
+  </body>
+</html>
