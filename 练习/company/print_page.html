@@ -383,7 +383,6 @@
         const treeHtml = urlParams.get('treeHtml')
         breadcrumbObj = JSON.parse(urlParams.get('breadcrumbObj'))
         $('#tree').html(treeHtml)
-        console.log(breadcrumbObj)
         $('#breadcrumb').html(breadcrumbObj.breadcrumbText)
         addClickEventForTreeItem()
 

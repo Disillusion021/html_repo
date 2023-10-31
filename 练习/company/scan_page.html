@@ -220,7 +220,7 @@
       .scan_option {
         width: 100%;
         font-size: 16px;
-        margin: 10px 15px 10px 0px;
+        margin: 6px 15px 6px 0px;
       }
 
       .scan_option span {
@@ -252,7 +252,7 @@
       }
 
       #operate_btn_div {
-        padding: 10px;
+        padding: 0 10px 10px 10px;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -267,6 +267,11 @@
         padding: 8px 22px 8px 22px;
         margin: 6px 10px;
         cursor: pointer;
+      }
+
+      /* tippy换行样式 */
+      #tippy-1 {
+        word-break: break-all;
       }
     </style>
   </head>
@@ -358,7 +363,6 @@
         const treeHtml = urlParams.get('treeHtml')
         breadcrumbObj = JSON.parse(urlParams.get('breadcrumbObj'))
         $('#tree').html(treeHtml)
-        console.log(breadcrumbObj)
         $('#breadcrumb').html(breadcrumbObj.breadcrumbText)
         addClickEventForTreeItem()
 
@@ -397,11 +401,23 @@
         }
 
         // tippy提示
-        const ellipsisElements = $('#fileName')
-        tippy(ellipsisElements, {
-          content: function (ref) {
-            return ref.innerHTML
+        const tippyInstance = tippy('#fileName', {
+          content: (ref) => {
+            return ref.getAttribute('value')
+          },
+          trigger: 'manual'
+        })
+        // 绑定输入事件,修改tippy提示词,显示tippy
+        $('#fileName').on('input', function () {
+          tippyInstance[0].setContent($(this).val())
+          tippyInstance[0].show()
+          if (!$(this).val()) {
+            tippyInstance[0].hide()
           }
+        })
+        // 绑定失去焦点事件,隐藏tippy
+        $('#input').on('blur', function () {
+          tippyInstance[0].hide()
         })
 
         // 返回按钮跳转扫描页
