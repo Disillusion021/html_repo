@@ -404,9 +404,7 @@
 
         // tippy提示
         const tippyInstance = tippy('#fileName', {
-          content: (ref) => {
-            return ref.getAttribute('value')
-          },
+          content: (ref) => ref.getAttribute('value'),
           trigger: 'manual'
         })
         // 绑定输入事件,修改tippy提示词,显示tippy

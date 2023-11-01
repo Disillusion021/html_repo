@@ -198,6 +198,12 @@
         padding-left: 15px;
         line-height: 46px;
         font-size: 16px;
+        display: inline-block;
+        max-width: 450px;
+        /* 不换行,超出显示省略号 */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       /* 表格区域 */
@@ -650,7 +656,7 @@
             login('admin', 'admin123').then(getTree)
           } else {
             $('#tree').html(gen_tree(res.data))
-            addClickEventForTreeItem()
+            $('.tree-item').on('click', clickEventForTreeItem)
           }
         }
         getTree()
@@ -671,40 +677,58 @@
           return html
         }
 
-        // 添加树节点点击事件
-        function addClickEventForTreeItem() {
-          $('.tree-item').on('click', function () {
-            // 移除之前选中的元素的样式
-            $('.selected').removeClass('selected')
-            // 添加当前选中元素的样式
-            $(this).addClass('selected')
-            // 修改面包屑
-            let breadcrumbIds = $(this).attr('folderRelation').split('-')
-            if (breadcrumbIds[0] === 'null') {
-              // 处理顶级节点
-              breadcrumbIds.splice(0, 1)
-            }
-            if (breadcrumbIds[0] === '') {
-              // 处理-3文件夹
-              breadcrumbIds.splice(0, 1)
-              breadcrumbIds[0] = '-3'
-            }
-            let currentFolderId = $(this).attr('id')
-            breadcrumbIds.push(currentFolderId)
-            let breadcrumbText = ''
-            breadcrumbIds.forEach((folderId) => {
-              breadcrumbText +=
-                '/' + $('.tree-item[id="' + folderId + '"]').attr('label')
-            })
-            breadcrumbText = breadcrumbText.substring(1)
-            $('#breadcrumb').html(breadcrumbText)
-            breadcrumbObj['breadcrumbIds'] = breadcrumbIds
-            breadcrumbObj['breadcrumbText'] = breadcrumbText
-            breadcrumbObj['currentFolderId'] = currentFolderId
-            breadcrumbObj['currentFileType'] = $(this).attr('type')
-            // console.log(breadcrumbObj)
-            fileList()
+        // 树节点点击事件
+        function clickEventForTreeItem() {
+          // 移除之前选中的元素的样式
+          $('.selected').removeClass('selected')
+          // 添加当前选中元素的样式
+          $(this).addClass('selected')
+          // 修改面包屑
+          let breadcrumbIds = $(this).attr('folderRelation').split('-')
+          if (breadcrumbIds[0] === 'null') {
+            // 处理顶级节点
+            breadcrumbIds.splice(0, 1)
+          }
+          if (breadcrumbIds[0] === '') {
+            // 处理-3文件夹
+            breadcrumbIds.splice(0, 1)
+            breadcrumbIds[0] = '-3'
+          }
+          let currentFolderId = $(this).attr('id')
+          breadcrumbIds.push(currentFolderId)
+          let breadcrumbText = ''
+          breadcrumbIds.forEach((folderId) => {
+            breadcrumbText +=
+              '/' + $('.tree-item[id="' + folderId + '"]').attr('label')
           })
+          breadcrumbText = breadcrumbText.substring(1)
+          $('#breadcrumb').html(breadcrumbText)
+          breadcrumbObj['breadcrumbIds'] = breadcrumbIds
+          breadcrumbObj['breadcrumbText'] = breadcrumbText
+          breadcrumbObj['currentFolderId'] = currentFolderId
+          breadcrumbObj['currentFileType'] = $(this).attr('type')
+          // console.log(breadcrumbObj)
+          fileList()
+          setBreadcrumbTippy()
+        }
+        // 面包屑超长提示
+        var breadcrumbTippy = []
+        function setBreadcrumbTippy() {
+          // 销毁tippy
+          breadcrumbTippy.forEach((instance) => {
+            instance.destroy()
+          })
+          breadcrumbTippy = []
+          // 如果超长,新增tippy提示
+          if (
+            $('#breadcrumb')[0].scrollWidth > $('#breadcrumb')[0].clientWidth
+          ) {
+            const instances = tippy('#breadcrumb', {
+              content: (ref) => ref.innerHTML
+            })
+            // 将instances伪数组纳入真数组中
+            breadcrumbTippy = [...breadcrumbTippy, ...instances]
+          }
         }
 
         // tippy提示
@@ -719,10 +743,9 @@
             })
             .toArray()
           const instances = tippy(ellipsisElements, {
-            content: function (ref) {
-              return ref.innerHTML
-            }
+            content: (ref) => ref.innerHTML
           })
+          // 将instances伪数组纳入真数组中
           tippyInstances = [...tippyInstances, ...instances]
         }
         function destroyTippy() {
