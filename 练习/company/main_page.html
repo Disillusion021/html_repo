@@ -254,7 +254,7 @@
         max-width: 78px;
       }
       .file-size {
-        max-width: 62px;
+        max-width: 63px;
       }
 
       .operate_btn {
@@ -552,6 +552,80 @@
           localStorage.setItem('token', res.token) // 将获取到的 token 保存到本地存储中
         }
 
+        // Ajax请求后台文件分页接口
+        async function fileList(pageNum = 1) {
+          const res = await $.ajax({
+            url: 'http://localhost:8088/prod-api/system/file/list',
+            type: 'GET',
+            data: {
+              pageNum: pageNum,
+              pageSize: 6,
+              fileType: breadcrumbObj.currentFileType
+                ? breadcrumbObj.currentFileType
+                : 'watch_folder', // 默认打开监听文件夹
+              folderId: breadcrumbObj.currentFolderId
+                ? breadcrumbObj.currentFolderId
+                : '-3' // 默认打开监听文件夹
+            },
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('token') // 将 token 放入请求头中
+            },
+            dataType: 'json'
+          })
+          if (res.code === 401) {
+            console.log('分页401重新请求登录')
+            login('admin', 'admin123').then(() => {
+              fileList()
+            })
+          } else {
+            // console.log(res)
+            const fakeDataSource = new Array(res.total)
+            // 分页渲染
+            var isfirstCallback = true
+            $('#main_content_page').pagination({
+              dataSource: fakeDataSource,
+              pageNumber: pageNum,
+              pageSize: 6,
+              className: 'paginationjs-small', // 设置小样式
+              // 第一次不调用callback,点击页码再调用,点完页码调用后会再次调用fileList,再次渲染分页,第一次不调用
+              callback: (data, pagination) => {
+                if (isfirstCallback) {
+                  isfirstCallback = false
+                  res.rows.forEach((row, index) => {
+                    const $row = $('tbody tr').eq(index)
+                    $row.find('.file-name').text(row.fileName)
+                    $row
+                      .find('.file-date')
+                      .text(row.createTime.substring(0, 10))
+                    $row.find('.file-size').text(formatSize(row.fileSize))
+                  })
+                  // TODO 销毁原先的tippy
+                  setTippy()
+                } else {
+                  fileList(pagination.pageNumber)
+                }
+              }
+            })
+          }
+        }
+        fileList()
+
+        function formatSize(
+          size,
+          pointLength = 2,
+          units = ['B', 'KB', 'MB', 'GB', 'TB']
+        ) {
+          let unit = units.shift()
+          while (size >= 1024) {
+            unit = units.shift()
+            size = size / 1024
+          }
+          return (
+            (size === Math.floor(size) ? size : size.toFixed(pointLength)) +
+            unit
+          )
+        }
+
         // Ajax请求后台目录树并渲染
         async function getTree() {
           const res = await $.ajax({
@@ -563,8 +637,8 @@
             dataType: 'json'
           })
           if (res.code === 401) {
-            console.log('401重新请求登录')
-            login('ceshi1', '123456').then(getTree)
+            console.log('目录401重新请求登录')
+            login('admin', 'admin123').then(getTree)
           } else {
             $('#tree').html(gen_tree(res.data))
             addClickEventForTreeItem()
@@ -618,38 +692,27 @@
             breadcrumbObj['breadcrumbIds'] = breadcrumbIds
             breadcrumbObj['breadcrumbText'] = breadcrumbText
             breadcrumbObj['currentFolderId'] = currentFolderId
+            breadcrumbObj['currentFileType'] = $(this).attr('type')
             // console.log(breadcrumbObj)
           })
         }
 
         // tippy提示
-        const ellipsisElements = $('td')
-          .filter(function () {
-            return (
-              $(this).css('text-overflow') === 'ellipsis' &&
-              this.scrollWidth > this.clientWidth
-            )
+        function setTippy(params) {
+          const ellipsisElements = $('td')
+            .filter(function () {
+              return (
+                $(this).css('text-overflow') === 'ellipsis' &&
+                this.scrollWidth > this.clientWidth
+              )
+            })
+            .toArray()
+          tippy(ellipsisElements, {
+            content: function (ref) {
+              return ref.innerHTML
+            }
           })
-          .toArray()
-        tippy(ellipsisElements, {
-          content: function (ref) {
-            return ref.innerHTML
-          }
-        })
-
-        // 分页设置
-        $.extend($.fn.pagination.defaults, {
-          pageSize: 3
-        })
-        $('#main_content_page').pagination({
-          dataSource: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-          className: 'paginationjs-small', // 设置小样式
-          callback: function (data, pagination) {
-            // template method of yourself
-            // var html = ''
-            $('#main_content_page').html(undefined)
-          }
-        })
+        }
 
         // 扫描按钮跳转扫描页
         $('#scan_btn').on('click', function () {
