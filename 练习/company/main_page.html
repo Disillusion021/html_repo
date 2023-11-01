@@ -249,12 +249,15 @@
       }
       .file-name {
         max-width: 165px;
+        min-width: 165px;
       }
       .file-date {
         max-width: 78px;
+        min-width: 78px;
       }
       .file-size {
         max-width: 63px;
+        min-width: 63px;
       }
 
       .operate_btn {
@@ -433,9 +436,9 @@
               <td>
                 <input type="checkbox" name="id" value="1" />
               </td>
-              <td class="file-name">fdasfdsafadsfdsafasd.pdf</td>
-              <td class="file-date">2023-10-20</td>
-              <td class="file-size">1356.24ssfdsafkb</td>
+              <td class="file-name">xxxxxxxxxxxxxxxxxxxx.pdf</td>
+              <td class="file-date">0000-00-00</td>
+              <td class="file-size">000.00KB</td>
               <td class="file-operate">
                 <button type="button" class="operate_btn print_btn">
                   打印
@@ -449,11 +452,9 @@
               <td>
                 <input type="checkbox" name="id" value="1" />
               </td>
-              <td class="file-name">
-                fadsfadsfdsafasdfdasfadsffdasfdsafadsfdsafasd.pdf
-              </td>
-              <td class="file-date">2023-10-20</td>
-              <td class="file-size">356.24kb</td>
+              <td class="file-name">xxxxxxxxxxxxxxxxxxxx.pdf</td>
+              <td class="file-date">0000-00-00</td>
+              <td class="file-size">000.00KB</td>
               <td class="file-operate">
                 <button type="button" class="operate_btn print_btn">
                   打印
@@ -467,9 +468,9 @@
               <td>
                 <input type="checkbox" name="id" value="1" />
               </td>
-              <td class="file-name">fdasfdsafadsfdsafasd.pdf</td>
-              <td class="file-date">2023-10-20</td>
-              <td class="file-size">356kb</td>
+              <td class="file-name">xxxxxxxxxxxxxxxxxxxx.pdf</td>
+              <td class="file-date">0000-00-00</td>
+              <td class="file-size">000.00KB</td>
               <td class="file-operate">
                 <button type="button" class="operate_btn print_btn">
                   打印
@@ -483,9 +484,9 @@
               <td>
                 <input type="checkbox" name="id" value="1" />
               </td>
-              <td class="file-name">fdasfdsafadsfdsafasd.pdf</td>
-              <td class="file-date">2023-10-20</td>
-              <td class="file-size">356kb</td>
+              <td class="file-name">xxxxxxxxxxxxxxxxxxxx.pdf</td>
+              <td class="file-date">0000-00-00</td>
+              <td class="file-size">000.00KB</td>
               <td class="file-operate">
                 <button type="button" class="operate_btn print_btn">
                   打印
@@ -499,9 +500,9 @@
               <td>
                 <input type="checkbox" name="id" value="1" />
               </td>
-              <td class="file-name">fdasfdsafadsfdsafasd.pdf</td>
-              <td class="file-date">2023-10-20</td>
-              <td class="file-size">356kb</td>
+              <td class="file-name">xxxxxxxxxxxxxxxxxxxx.pdf</td>
+              <td class="file-date">0000-00-00</td>
+              <td class="file-size">000.00KB</td>
               <td class="file-operate">
                 <button type="button" class="operate_btn print_btn">
                   打印
@@ -515,9 +516,9 @@
               <td>
                 <input type="checkbox" name="id" value="1" />
               </td>
-              <td class="file-name">fdasfdsafadsfdsafasd.pdf</td>
-              <td class="file-date">2023-10-20</td>
-              <td class="file-size">356kb</td>
+              <td class="file-name">xxxxxxxxxxxxxxxxxxxx.pdf</td>
+              <td class="file-date">0000-00-00</td>
+              <td class="file-size">000.00KB</td>
               <td class="file-operate">
                 <button type="button" class="operate_btn print_btn">
                   打印
@@ -591,15 +592,23 @@
               callback: (data, pagination) => {
                 if (isfirstCallback) {
                   isfirstCallback = false
-                  res.rows.forEach((row, index) => {
-                    const $row = $('tbody tr').eq(index)
-                    $row.find('.file-name').text(row.fileName)
-                    $row
-                      .find('.file-date')
-                      .text(row.createTime.substring(0, 10))
-                    $row.find('.file-size').text(formatSize(row.fileSize))
+                  $('tbody tr').each(function (index) {
+                    const $row = $(this)
+                    const row = res.rows[index]
+                    if (row !== undefined) {
+                      $row.find('.file-name').text(row.fileName)
+                      $row
+                        .find('.file-date')
+                        .text(row.createTime.substring(0, 10))
+                      $row.find('.file-size').text(formatSize(row.fileSize))
+                    } else {
+                      // 清空单元格内容
+                      $row.find('.file-name').text('')
+                      $row.find('.file-date').text('')
+                      $row.find('.file-size').text('')
+                    }
                   })
-                  // TODO 销毁原先的tippy
+                  destroyTippy()
                   setTippy()
                 } else {
                   fileList(pagination.pageNumber)
@@ -694,10 +703,12 @@
             breadcrumbObj['currentFolderId'] = currentFolderId
             breadcrumbObj['currentFileType'] = $(this).attr('type')
             // console.log(breadcrumbObj)
+            fileList()
           })
         }
 
         // tippy提示
+        var tippyInstances = []
         function setTippy(params) {
           const ellipsisElements = $('td')
             .filter(function () {
@@ -707,11 +718,18 @@
               )
             })
             .toArray()
-          tippy(ellipsisElements, {
+          const instances = tippy(ellipsisElements, {
             content: function (ref) {
               return ref.innerHTML
             }
           })
+          tippyInstances = [...tippyInstances, ...instances]
+        }
+        function destroyTippy() {
+          tippyInstances.forEach((instance) => {
+            instance.destroy()
+          })
+          tippyInstances = []
         }
 
         // 扫描按钮跳转扫描页
