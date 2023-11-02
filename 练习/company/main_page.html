@@ -550,7 +550,7 @@
         // 模拟登录接口
         async function login(username, password) {
           const res = await $.ajax({
-            url: 'http://localhost:8088/prod-api/loginTest',
+            url: 'http://192.168.3.10:8088/prod-api/loginTest',
             type: 'POST',
             data: JSON.stringify({ username: username, password: password }),
             dataType: 'json',
@@ -562,7 +562,7 @@
         // Ajax请求后台文件分页接口
         async function fileList(pageNum = 1) {
           const res = await $.ajax({
-            url: 'http://localhost:8088/prod-api/system/file/list',
+            url: 'http://192.168.3.10:8088/prod-api/system/file/list',
             type: 'GET',
             data: {
               pageNum: pageNum,
@@ -644,7 +644,7 @@
         // Ajax请求后台目录树并渲染
         async function getTree() {
           const res = await $.ajax({
-            url: 'http://localhost:8088/prod-api/system/folder/folderTree',
+            url: 'http://192.168.3.10:8088/prod-api/system/folder/folderTree',
             type: 'GET',
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem('token') // 将 token 放入请求头中
@@ -655,8 +655,11 @@
             console.log('目录401重新请求登录')
             login('admin', 'admin123').then(getTree)
           } else {
-            $('#tree').html(gen_tree(res.data))
+            const treeHtml = gen_tree(res.data)
+            $('#tree').html(treeHtml)
             $('.tree-item').on('click', clickEventForTreeItem)
+            // 将treeHtml存入sessionStorage
+            sessionStorage.setItem('treeHtml', treeHtml)
           }
         }
         getTree()
@@ -710,6 +713,15 @@
           // console.log(breadcrumbObj)
           fileList()
           setBreadcrumbTippy()
+          setTimeout(() => {
+            // 将breadcrumbObj存入sessionStorage
+            sessionStorage.setItem(
+              'breadcrumbObj',
+              JSON.stringify(breadcrumbObj)
+            )
+            // 将treeHtml存入sessionStorage
+            sessionStorage.setItem('treeHtml', $('#tree').html())
+          }, 0)
         }
         // 面包屑超长提示
         var breadcrumbTippy = []
@@ -757,30 +769,32 @@
 
         // 扫描按钮跳转扫描页
         $('#scan_btn').on('click', function () {
-          const treeHtml = $('#tree').html()
-          const encodedTreeHtml = encodeURIComponent(treeHtml)
-          const encodedBreadCrumb = encodeURIComponent(
-            JSON.stringify(breadcrumbObj)
-          )
-          window.location.href =
-            './scan_page.html?treeHtml=' +
-            encodedTreeHtml +
-            '&breadcrumbObj=' +
-            encodedBreadCrumb
+          // const treeHtml = $('#tree').html()
+          // const encodedTreeHtml = encodeURIComponent(treeHtml)
+          // const encodedBreadCrumb = encodeURIComponent(
+          //   JSON.stringify(breadcrumbObj)
+          // )
+          // window.location.href =
+          //   './scan_page.html?treeHtml=' +
+          //   encodedTreeHtml +
+          //   '&breadcrumbObj=' +
+          //   encodedBreadCrumb
+          window.location.href = './scan_page.html'
         })
 
         // 打印按钮跳转打印页
         $('.print_btn').on('click', function () {
-          const treeHtml = $('#tree').html()
-          const encodedTreeHtml = encodeURIComponent(treeHtml)
-          const encodedBreadCrumb = encodeURIComponent(
-            JSON.stringify(breadcrumbObj)
-          )
-          window.location.href =
-            './print_page.html?treeHtml=' +
-            encodedTreeHtml +
-            '&breadcrumbObj=' +
-            encodedBreadCrumb
+          // const treeHtml = $('#tree').html()
+          // const encodedTreeHtml = encodeURIComponent(treeHtml)
+          // const encodedBreadCrumb = encodeURIComponent(
+          //   JSON.stringify(breadcrumbObj)
+          // )
+          // window.location.href =
+          //   './print_page.html?treeHtml=' +
+          //   encodedTreeHtml +
+          //   '&breadcrumbObj=' +
+          //   encodedBreadCrumb
+          window.location.href = './print_page.html'
         })
 
         // Logout登出
