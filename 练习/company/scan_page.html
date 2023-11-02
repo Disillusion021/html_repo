@@ -312,6 +312,11 @@
               <div class="scan_option clearfix">
                 <span>文件名</span>
                 <input name="fileName" id="fileName" type="text" />
+                <input
+                  type="hidden"
+                  id="targetFolderId"
+                  name="targetFolderId"
+                />
               </div>
               <div class="scan_option clearfix">
                 <span>扫描类型</span>
@@ -366,6 +371,7 @@
         breadcrumbObj = JSON.parse(urlParams.get('breadcrumbObj'))
         $('#tree').html(treeHtml)
         $('#breadcrumb').html(breadcrumbObj.breadcrumbText)
+        $('#targetFolderId').val(breadcrumbObj.currentFolderId) // 设置扫描目标文件夹id
         addClickEventForTreeItem()
 
         // 添加树节点点击事件
