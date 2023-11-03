@@ -363,17 +363,19 @@
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script>
       $(document).ready(function () {
-        var breadcrumbObj = {}
+        var breadcrumbObj = JSON.parse(
+          sessionStorage.getItem('breadcrumbObj')
+        ) || { breadcrumbText: '个人空间', currentFolderId: '-3' }
 
         // 渲染目录树
         // const urlParams = new URLSearchParams(window.location.search)
         // const treeHtml = urlParams.get('treeHtml')
         // breadcrumbObj = JSON.parse(urlParams.get('breadcrumbObj'))
         const treeHtml = sessionStorage.getItem('treeHtml')
-        breadcrumbObj = JSON.parse(sessionStorage.getItem('breadcrumbObj'))
         $('#tree').html(treeHtml)
         $('#breadcrumb').html(breadcrumbObj.breadcrumbText)
         $('#targetFolderId').val(breadcrumbObj.currentFolderId) // 设置扫描目标文件夹id
+        console.log(breadcrumbObj)
         addClickEventForTreeItem()
 
         // 添加树节点点击事件
