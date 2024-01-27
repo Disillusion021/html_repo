@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        async function foo() {
+   const p1 = new Promise((resolve) => setTimeout(() => resolve('1'), 1000)).catch(() => console.log('catch p1'))
+   const p2 = new Promise((_,reject) => setTimeout(() => reject('2'), 500))
+   try {
+    
+   const results = [await p1, await p2]// 不推荐使用这种方式，请使用 Promise.all或者Promise.allSettled 
+   } catch (error) {
+    console.log('fdsfadfadf')
+   }
+}
+// foo().catch((e) => {console.log(e)}) // 捕捉所有的错误...
+// foo().catch((e) => {console.log('4124')}) // 捕捉所有的错误...
+console.log(foo().catch((e) => {console.log('4124')}))
+    </script>
+</body>
+</html>
