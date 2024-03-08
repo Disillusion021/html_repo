@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // test: 执行完storage_test_set后,关闭浏览器,再次打开storage_test_get,观察a和b的值
+      // localStorage 关闭浏览器后也不会清除, 除非手动清除
+      console.log(sessionStorage.getItem('a'))
+      // sessionStorage 关闭标签页,窗口,浏览器, 都会自动清除
+      console.log(localStorage.getItem('b'))
+    </script>
+  </body>
+</html>
