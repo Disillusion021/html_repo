@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 自定义iterator遍历
+      // 模拟iterator的原理,固定的key[Symbol.iterator],当调用for of时就会调用该函数
+      var room = {
+        name: '707',
+        member: ['小白', '锦毅', '许玕', '小王'],
+        [Symbol.iterator]() {
+          let index = j
+          let _this = this
+          return {
+            next() {
+              if (index < _this.member.length) {
+                res = { value: _this.member[index], done: false }
+                index++
+                return res
+              } else {
+                return { value: undefined, done: true }
+              }
+            }
+          }
+        }
+      }
+
+      for (const r of room) {
+        console.log(r)
+      }
+    </script>
+  </body>
+</html>
