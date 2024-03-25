@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input id="num" type="text" placeholder="数值" />
+    <button id="btn1" type="button">主线程计算</button>
+    <button id="btn2" type="button">分线程计算</button>
+    <script>
+      // 当num很大时,计算时间很长,导致页面假死无法操作
+      // 所以可以把此计算操作放到分线程中去做(但是该子线程完全受主线程控制,不能操作DOM,DOM只能由主线程操作,所以并没有改变js单线程的本质)
+      function fibonacci(num) {
+        if (num < 2) {
+          return num
+        } else {
+          return fibonacci(num - 1) + fibonacci(num - 2)
+        }
+      }
+
+      let btn1 = document.getElementById('btn1')
+      btn1.onclick = function () {
+        let num = document.getElementById('num').value
+        alert(fibonacci(num))
+      }
+
+      var btn2 = document.getElementById('btn2')
+      btn2.onclick = function () {
+        var num = document.getElementById('num').value
+        // 创建一个worker对象
+        var worker = new Worker("./fib.js")
+        // 向分线程发送消息
+        worker.postMessage(num)
+        console.log('主线程向分线程发送数据: ' + num)
+        // 绑定接收消息的监听事件
+        worker.onmessage = function (event) {
+          console.log('主线程接收到分线程返回的数据: ' + event.data)
+          alert(event.data)
+        }
+      }
+    </script>
+  </body>
+</html>
