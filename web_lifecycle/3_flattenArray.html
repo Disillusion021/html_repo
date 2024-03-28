@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function flattenArray(arr) {
+        return arr.reduce((acc, cur) => {
+          if (Array.isArray(cur)) {
+            acc = acc.concat(flattenArray(cur))
+          } else {
+            acc.push(cur)
+          }
+          return acc
+        }, [])
+      }
+
+      function flattenArrayByStack(arr) {
+        const stack = [...arr.reverse()]
+        const ans = []
+        while (stack.length) {
+          const first = stack[stack.length - 1]
+          stack.pop()
+          if (Array.isArray(first)) {
+            stack.push(...first.reverse())
+          } else {
+            ans.push(first)
+          }
+        }
+        return ans
+      }
+
+      console.log(flattenArray([1, 2, 3])); // [1, 2, 3])
+      console.log(flattenArray([1, [2, 3]])); // [1, 2, 3])
+      console.log(flattenArray([1, [[2, 2], [3, [4]], 5]])); // [1, 2, 2, 3, 4, 5];
+    </script>
+  </body>
+</html>

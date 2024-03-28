@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function flattenTree(tree) {
+        return tree.reduce((acc, cur) => {
+          const { id, children } = cur
+          acc.push(id)
+          if (children && children.length) {
+            acc = acc.concat(flattenTree(children))
+          }
+          return acc
+        }, [])
+      }
+
+      function flattenTreeByStack(tree) {
+        const stack = [...tree.reverse()]
+        const ans = []
+        while (stack.length) {
+          const top = stack[stack.length - 1]
+          stack.pop()
+          ans.push(top.id)
+          if (top.children && top.children.length) {
+            stack.push(...top.children.reverse())
+          }
+        }
+        return ans
+      }
+
+      const tree1 = [
+        {
+          id: 0,
+          children: [
+            {
+              id: 1,
+              children: [
+                {
+                  id: 2,
+                  children: []
+                }
+              ]
+            },
+            {
+              id: 3,
+              children: []
+            }
+          ]
+        },
+        {
+          id: 4,
+          children: []
+        }
+      ]
+      console.log(flattenTreeByStack(tree1)) // [0, 1, 2, 3, 4]
+
+      const tree2 = []
+      console.log(flattenTreeByStack(tree2)) // []
+
+      const tree3 = [
+        {
+          id: 0,
+          children: []
+        },
+        {
+          id: 1,
+          children: []
+        },
+        {
+          id: 2,
+          children: []
+        },
+        {
+          id: 3,
+          children: []
+        }
+      ]
+      console.log(flattenTreeByStack(tree3)) // [0, 1, 2, 3]
+
+      const tree4 = [
+        {
+          id: 0,
+          children: [
+            {
+              id: 1,
+              children: [
+                {
+                  id: 2,
+                  children: []
+                }
+              ]
+            },
+            {
+              id: 3,
+              children: [
+                {
+                  id: 4,
+                  children: [
+                    {
+                      id: 5,
+                      children: []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 6,
+          children: []
+        }
+      ]
+      console.log(flattenTreeByStack(tree4)) // [0, 1, 2, 3, 4, 5, 6]
+    </script>
+  </body>
+</html>

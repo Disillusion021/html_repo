@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function sort(arr) {
+        let len = arr.length
+        for (let i = 0; i < len - 1; i++) {
+          for (let j = 0; j < len - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+              let temp = arr[j]
+              arr[j] = arr[j + 1]
+              arr[j + 1] = temp
+            }
+          }
+        }
+        return arr
+      }
+      let a = [1, 1, 1, 3, 4, 5, 7, 6, 6, 6, 0, 0, -1]
+      sort(a)
+      console.log(a)
+
+      let b = [1, 1, 1, 3, 4, 5, 7, 9, 100, 6, 0, 0, -1]
+      function quciksort(arr, l = 0, r = arr.length - 1) {
+        const t = arr[l] // 基准数
+        if (l >= r) return// 递归出口: 只剩1个元素时,结束递归
+        let i = l
+        let j = r
+        while (i < j) {
+          while (i < j && arr[j] >= t) {
+            j-- // 从右向左查找第一个小于基准数的元素
+          }
+          while (i < j && arr[i] <= t) {
+            i++ // 从左向右查找第一个大于基准数的元素
+          }
+          [arr[i], arr[j]] = [arr[j], arr[i]] // 将i,j所在元素调换
+        }
+        [arr[l], arr[i]] = [arr[i], arr[l]] // 将基准数置于分界线
+        quciksort(arr, l, i - 1)
+        quciksort(arr, j + 1, r)
+      }
+      quciksort(b)
+      console.log(b)
+    </script>
+  </body>
+</html>

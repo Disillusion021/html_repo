@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function getType(o) {
+        return Object.prototype.toString.call(o)
+      }
+
+      function deepClone(obj, weakMap = new WeakMap()) {
+        const type = Object.prototype.toString.call(obj)
+        if (!(type == '[object Object]' || type == '[object Array]')) return obj
+        const o = type === '[object Object]' ? {} : []
+        // 防止循环引用,若存在循环引用,返回之前拷贝好的存在weakMap中的值
+        if (weakMap.get(obj)) return weakMap.get(obj)
+        weakMap.set(obj, o)
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            o[key] = deepClone(obj[key], weakMap)
+          }
+        }
+        return o
+      }
+
+      // 深度合并两个对象
+      function deepMerge(a, b) {
+        // 若a不为对象或数组,则深度拷贝b作为合并后的新对象
+        if (
+          getType(a) !== '[object Object]' &&
+          getType(a) !== '[object Array]'
+        ) {
+          return deepClone(b)
+        }
+        // 判断a为数组还是对象,给新对象赋默认值
+        const isArray = getType(a) === '[object Array]'
+        const res = isArray ? [] : {}
+
+        // 因为要求相同的属性则以b对象为主,所以把b的拷贝对象当第一步更好,如果b中再有undefined属性值,再拿a去补充赋值
+        for (const key in b) {
+          if (b.hasOwnProperty(key)) {
+            res[key] = deepMerge(a[key], b[key]) // 递归合并,以b优先(拷贝初值),a补充(b为undefined再拷贝)
+          }
+        }
+        for (const key in a) {
+          if (res[key] === undefined && a.hasOwnProperty(key)) {
+            res[key] = deepClone(a[key])
+          }
+        }
+        return res
+      }
+
+      let a = { a: 1 }
+      let b = { b: 2 }
+      console.log(JSON.stringify(deepMerge(a, b))) // { a: 1, b: 2 }
+
+      a = { foo: { bar: 0 }, arr: [1, 3, { a: { b: 1 } }] }
+      b = { foo: { bar: 1 }, arr: [1, 2, { b: { a: 1 } }] }
+      console.log(JSON.stringify(deepMerge(a, b))) // { foo: { bar: 1 }, arr: [1, 2, { a: { b: 1 }, b: { a: 1 } }] }
+
+      a = { a: 1 }
+      b = { a: undefined }
+      console.log(JSON.stringify(deepMerge(a, b))) // { a: 1 }
+
+      a = { a: 1 }
+      b = undefined
+      console.log(JSON.stringify(deepMerge(a, b))) // { a: 1 }
+
+      a = undefined
+      b = { a: 1 }
+      console.log(JSON.stringify(deepMerge(a, b))) // { a: 1 }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function compose(...args) {
+        if (args.length === 0) return (x) => x
+        if (args.length === 1) return args[0]
+        return args.reduce((acc, cur) => (...args) => {
+          return acc(cur(...args))
+        })
+      }
+      console.log(compose()(5)) // 5
+
+      // 先平方计算再乘法计算
+      const double = (x) => x * 2
+      const square = (x) => x * x
+      console.log(compose(double, square)(10)) // 200
+
+      // a(b(c(final)))(initial)
+      const a = (next) => (x) => next(x + 'a')
+      const b = (next) => (x) => next(x + 'b')
+      const c = (next) => (x) => next(x + 'c')
+      const final = (x) => x + 'f'
+      console.log(compose(a, b, c)(final)('')) // abcf
+      console.log(((x) => ((x) => ((x) => ((x) => x + 'f')(x + 'c'))(x + 'b'))(x + 'a'))('')) // abcf
+    </script>
+  </body>
+</html>

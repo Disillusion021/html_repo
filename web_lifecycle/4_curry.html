@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 实现一个延迟执行的柯里化函数, 最终无参数传递时真正调用
+      function curry(fn) {
+        let _args = []
+        return (...args) => {
+          let result = null
+          if (args.length) {
+            _args = _args.concat(args)
+          } else {
+            result = fn(..._args)
+          }
+          return result
+        }
+      }
+
+      function add(...args) {
+        return args.reduce((acc, cur) => {
+          return acc + cur
+        }, 0)
+      }
+
+      const curryAdd = curry(add)
+      console.log(curryAdd(1)) // null
+      console.log(curryAdd(2)) // null
+      console.log(curryAdd(3)) // null
+      console.log(curryAdd()) // 6
+      console.log(curryAdd(1, 2, 1)) // null
+      console.log(curryAdd()) // 10
+      console.log(curryAdd(1, 2)) // null
+      console.log(curryAdd()) // 13
+
+      const multi = (...args) => args.reduce((a, b) => a * b, 1)
+      const curryMulti = curry(multi)
+      console.log(curryMulti(1)) // null
+      console.log(curryMulti(2)) // null
+      console.log(curryMulti(3)) // null
+      console.log(curryMulti()) // 6
+    </script>
+  </body>
+</html>

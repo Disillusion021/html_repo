@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function indexOf(str, substr) {
+        if (substr.length === 0) return 0
+        for (let j = 0; j <= str.length - substr.length; j++) {
+          let match = true
+          let startIndex = j
+          for (let i = 0; i < substr.length; i++) {
+            if (str[j] !== substr[i]) {
+              match = false
+              j = startIndex
+              break
+            }
+            j++
+          }
+          if (match) return startIndex
+        }
+        return -1
+      }
+
+      // 简练版写法
+      function iOf(str, substr) {
+        let sLen = str.length
+        let subLen = substr.length
+        let i = 0
+        let j = 0
+        while (i < sLen && j < subLen) {
+          if (str[i] === substr[j]) {
+            i++
+            j++
+          } else {
+            i = i - j + 1
+            j = 0
+          }
+        } 
+        if (j === subLen) {
+          return i - j
+        } else {
+          return -1
+        }
+      }
+
+      const str = 'hellohellhellolloloaalklkhello'
+      console.log(iOf(str, 'llolll')) // 0 1 0 1 2 3
+    </script>
+  </body>
+</html>
