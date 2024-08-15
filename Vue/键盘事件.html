@@ -7,7 +7,9 @@
 	</head>
 	<body>
 		<div id="oDiv">
+			<!-- v-model只能用于表单元素(有value属性的元素),v-model:value=可以简写成v-model= -->
 			<input type="text" v-on:keyup.enter="m" v-model:value="v"/><span>{{x}}</span>
+			<input type="text" v-on:keyup.enter="m" v-model="v"/><span>{{x}}</span>
 		</div>
 	</body>
 	<body>
