@@ -45,8 +45,8 @@
         }
         return obj;
     }
-    var p1 = new createPerson("John",18)
-    var p2 = new createPerson("aaa", 16)
+    var p1 = createPerson("John",18)
+    var p2 = createPerson("aaa", 16)
     console.log(p1.__proto__)
     // 方式三(闭包): 和方式三其实一样,不过就是拿闭包控制了下属性访问
     // 缺点: 没有类型,从p3.__proto__为根Object.prototype可知
@@ -69,8 +69,8 @@
         }
         return obj;
     }
-    var p3 = new createPerson2("John",18)
-    var p4 = new createPerson2("aaa", 16)
+    var p3 = createPerson2("John",18)
+    var p4 = createPerson2("aaa", 16)
     console.log(p3.__proto__)
 
     // **(常用)方式五: 通过函数当构造器直接创建对象
