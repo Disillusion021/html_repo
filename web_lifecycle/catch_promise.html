@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    try {
+      var fetchData = new Promise((resolve, reject) => {
+        throw new Error("Synchronous error in Promise constructor");
+      });
+    } catch (error) {
+      console.error("Caught an error:", error.message); // 这个 catch 不会捕获 Promise 构造函数中的异常
+    }
+
+    // Promise 构造函数中的异常将不会被 try...catch 捕获
+    fetchData.catch(error => {
+      console.error("Caught by .catch:", error.message);
+    }); 
+  </script>
+</body>
+
+</html>
