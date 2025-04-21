@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +9,14 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <title>Document</title>
 </head>
-<body>
-  <div id="root"></div>
-  <script type="text/babel"> // 用babel将React代码转成原生js代码
-    const root = ReactDOM.createRoot(document.getElementById("root"))
-    root.render(<App />)
 
-    class App extends React.Component {
-      render() {
-    //     return <h1>神奇宝贝</h1>
-      }
-    }
-  </script>
+<body>
+  <!-- 根组件 -->
+  <div id="root"></div>
+  <!-- 用babel将React代码转成原生js代码 -->
+  <script src="./src/components/lists/ul-list.jsx" type="text/babel"></script>
+  <script src="./src/App.js" type="text/babel"></script>
+  <script src="./src/index.js" type="text/babel"></script>
 </body>
+
 </html>
